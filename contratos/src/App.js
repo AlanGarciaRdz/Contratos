@@ -1,17 +1,40 @@
 import './App.css';
 import React from 'react';
+import ContratoPDF from './utils/ContratoPDF';
+import { jsPDF } from "jspdf";
 
 class App extends React.Component {
 
   constructor(props){
     super(props)
     this.state = {
+		embed: ''
     }
-
 
     this.leer_contrato = this.leer_contrato.bind(this);
     this.Guardar_Reservacion = this.Guardar_Reservacion.bind(this);
+	this.crear_PDF = this.crear_PDF.bind(this);
     
+  }
+
+  crear_PDF = () => {
+	const doc = new jsPDF('p', 'pt', 'letter');
+        
+	ContratoPDF.Contrato(doc, "PAPELETA", "cantidad")
+	
+
+	 
+	let data = doc.output('datauristring');
+	// doc.output('save', 'filename.pdf'); //Try to save PDF as a file (not works on ie before 10, and some mobile devices)
+	// doc.output('datauristring');        //returns the data uri string
+	// doc.output('datauri');              //opens the data uri in current window
+	// doc.output('dataurlnewwindow');     //opens the data uri in new window
+
+	let iframe = `<iframe type="application/pdf" src="${data}#toolbar=0&navpanes=0" width="100%" height="1100px" frameborder="0"></iframe>`;
+
+	this.setState({
+	  embed: iframe
+	});
   }
 
   leer_contrato = () => {
@@ -477,7 +500,7 @@ class App extends React.Component {
 	</div>
 
 
-
+	<div className="previewHTML" dangerouslySetInnerHTML={{ __html: this.state.embed}}/>
 
         
   </form>    
@@ -485,6 +508,8 @@ class App extends React.Component {
       
       <button onClick={this.leer_contrato} id="leercontrato">Leer contrato</button>
       <button onClick={this.Guardar_Reservacion} id="guardarcontrato">Guardar contrato</button>
+	  <button onClick={this.crear_PDF} id="guardarcontrato">crear PDF</button>
+	  
       
 
     </div>
