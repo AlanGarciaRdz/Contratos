@@ -18,12 +18,24 @@ function Detalles(doc, starty, margin_left ) {
      let fillColor_id = "#bbb"
      let completePage = doc.internal.pageSize.width-(margin_left*2)
 
+     
+
+    //FECHA CONTRATO
+     doc.setFillColor(fillColor_id) 
+     doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
+     doc.text(secondColumn_left, starty+13, "FECHA CONTRATO:");
+     doc.text(secondColumn_left + 160, starty+13, "14 Sept 2021");
+     starty += increment;
 
      // ID CONTRATO
      doc.setFillColor(fillColor_id) 
      doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
-     doc.text(margin_left*2, starty+13, "IDENTIFICADOR CONTRATO:");     
+     doc.text(margin_left*2, starty+13, "CONTRATO:");     
+     doc.text(margin_left*2 + 80, starty+13, "12345678901234567890");
+
      doc.text(secondColumn_left, starty+13, "CLAVE DE RESERVACION:");
+
+     doc.text(secondColumn_left+160, starty+13, "1234-1234");
 
      starty += increment;
      
@@ -32,7 +44,8 @@ function Detalles(doc, starty, margin_left ) {
 
 
 
-
+     starty += increment;
+     
      doc.setFillColor(fillColor) 
      let tmpy = starty
      doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
@@ -45,7 +58,7 @@ function Detalles(doc, starty, margin_left ) {
      doc.text(margin_left*2, starty+13, "NOMBRE:");     
      doc.text(secondColumn_left, starty+13, "TELEFONO:");
      starty += increment;
-     doc.text(margin_left*2, starty+13, "DIRECCION:");
+     doc.text(margin_left*2, starty+13, "DOMICILIO:");
 
      starty = tmpy+=sizeRectangle;
      starty += increment;
@@ -338,15 +351,33 @@ function Contrato(doc, PAPELETA, cantidad) {
         } catch (error) {
         
         }
-        doc.setFontSize(10);
+        doc.setFontSize(12);
+        
         let starty = 10;
-        let margin = 12;
+        
+        let margin = 13;
         let margin_left= 30;
+        let fillColor_Folio = "#eee"
+        let fillColor_FolioN = "#ccc"
+        let secondColumn_left = 300;
         
         doc.text(margin_left, starty+=margin, 'CONTRATO DE PRESTACION DE SERVICIOS DE TRANSPORTE');
         doc.text(margin_left, starty+=margin, 'RECORRIENDO KILOMETROS S.A. DE C.V. RFC: RKI180820PJA');
         doc.text(margin_left, starty+=margin, 'contacto@recorriendokilometros.com.mx');
         doc.text(margin_left, starty+=margin, 'Telefonos: 3316954455 - 3322553662');
+
+
+        //FOLIO
+        doc.setFillColor(fillColor_Folio) 
+        doc.roundedRect(secondColumn_left+150, 10, 100, 17, 13, 0, 'F');
+        doc.text(secondColumn_left+175, 10+margin, "FOLIO:");
+        doc.setFillColor(fillColor_FolioN) 
+        doc.roundedRect(secondColumn_left+150, 27, 100, 17, 13, 0, 'F');
+        doc.text(secondColumn_left+175, 27+margin, "123556:");
+        
+        // doc.text(secondColumn_left + 150, starty+13, ":");
+        // starty += increment;
+        
           
         //   doc.setFontSize(11);
         //   doc.setDrawColor(0);
