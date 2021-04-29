@@ -12,23 +12,25 @@ function Detalles(doc, starty, margin_left ) {
      let secondColumn_left = 300;
      let threeColumn = 200;
      let increment = 17;
-     let color_TITLES= "#000000"; 
-     let color_valores = (0,0,0);
-     let fillColor = "#ddd"
-     let fillColor_id = "#bbb"
-     let completePage = doc.internal.pageSize.width-(margin_left*2)
 
      
 
+     let color= "#004085"; 
+     let fillColor = "#cce5ff"
+     let completePage = doc.internal.pageSize.width-(margin_left*2)
+     var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+     
+
     //FECHA CONTRATO
-     doc.setFillColor(fillColor_id) 
+     doc.setTextColor("#155724") 
+     doc.setFillColor("#d4edda") 
      doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
      doc.text(secondColumn_left, starty+13, "FECHA CONTRATO:");
      doc.text(secondColumn_left + 160, starty+13, "14 Sept 2021");
      starty += increment;
 
      // ID CONTRATO
-     doc.setFillColor(fillColor_id) 
+     doc.setFillColor("#d4edda") 
      doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
      doc.text(margin_left*2, starty+13, "CONTRATO:");     
      doc.text(margin_left*2 + 80, starty+13, "12345678901234567890");
@@ -37,106 +39,111 @@ function Detalles(doc, starty, margin_left ) {
 
      doc.text(secondColumn_left+160, starty+13, "1234-1234");
 
-     starty += increment;
      
+     starty = finSeccion(starty, increment)
+     
+
      let sizeRectangle = 80;
-     
-
-
-
-     starty += increment;
-     
      doc.setFillColor(fillColor) 
      let tmpy = starty
-     doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
-     doc.setTextColor(color_TITLES) 
-     doc.text(margin_left*2, starty+13, 'DATOS DEL CONTRATANTE');
+     doc.roundedRect(margin_left, starty, completePage, 17, 0, 0, 'F');
+     doc.setTextColor(color) 
+     doc.text("DATOS DEL CONTRATANTE", pageWidth / 2, starty+13, 'center');    
      starty += increment;
-     doc.setTextColor(color_valores)
      sizeRectangle =  40;
-     doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 13, 0, 'D');
-     doc.text(margin_left*2, starty+13, "NOMBRE:");     
-     doc.text(secondColumn_left, starty+13, "TELEFONO:");
+     doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 2, 2, 'S');
+     doc.text(margin_left*2, starty+13, "NOMBRE:"); linea(doc, margin_left, starty)
+     doc.text(secondColumn_left, starty+13, "TELEFONO:");   linea(doc, margin_left, starty)
      starty += increment;
-     doc.text(margin_left*2, starty+13, "DOMICILIO:");
 
-     starty = tmpy+=sizeRectangle;
-     starty += increment;
+     doc.text(margin_left*2, starty+13, "DOMICILIO:");    linea(doc, margin_left, starty)
+
+     starty = tmpy+=sizeRectangle;   
+     starty = finSeccion(starty,increment)
 
      // ITINERARIO
      doc.setFillColor(fillColor) 
+     doc.setTextColor(color) 
      doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
-     
-
-     doc.text(margin_left*2, starty+13, 'ITINERARIO');
+     doc.text("ITINERARIO", pageWidth / 2, starty+13, 'center');
      starty += increment;
-     sizeRectangle = 180;
-     doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 13, 0, 'D');
-     doc.text(margin_left*2, starty+13, "NOMBRE:");     
+     sizeRectangle = 242;
+     doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 2, 2, 'S');
+     doc.text(margin_left*2, starty+13, "NOMBRE:");   linea(doc, margin_left, starty)     
      doc.text(secondColumn_left, starty+13, "TELEFONO:");
-
      starty += increment;
-     doc.text(margin_left*2, starty+13, "DESTINO:");     
-     doc.text(secondColumn_left, starty+13, "UBICACION:");
 
+     doc.text(margin_left*2, starty+13, "DESTINO:");  linea(doc, margin_left, starty)   
+     doc.text(secondColumn_left, starty+13, "UBICACION:");  linea(doc, margin_left, starty)
      starty += increment;
-     doc.text(margin_left*2, starty+13, "FECHA DE SALIDA:");
-     doc.text(margin_left+threeColumn, starty+13, "PRESENTARSE:");
-     doc.text(threeColumn*2, starty+13, "HORA SALIDA:");
 
+
+     doc.text(margin_left*2, starty+13, "FECHA DE SALIDA:");  linea(doc, margin_left, starty)
+     doc.text(margin_left+threeColumn, starty+13, "PRESENTARSE:");  linea(doc, margin_left, starty)
+     doc.text(threeColumn*2, starty+13, "HORA SALIDA:"); linea(doc, margin_left, starty)
      starty += increment;
-     doc.text(margin_left*2, starty+13, "DOMICILIO SALIDA:"); 
-     
+
+     doc.text(margin_left*2, starty+13, "DOMICILIO SALIDA:"); linea(doc, margin_left, starty)
+     starty += increment;
+
+     doc.text(margin_left*2, starty+13, "UBICACION:");  linea(doc, margin_left, starty)
      starty += increment;    
-     doc.text(margin_left*2, starty+13, "UBICACION:");
 
-     starty += increment;    
-     doc.text(margin_left*2, starty+13, "REFERENCIAS:");
-
+     doc.text(margin_left*2, starty+13, "REFERENCIAS:"); linea(doc, margin_left, starty)
      starty += increment;
-     doc.text(margin_left*2, starty+13, "FECHA DE REGRESO:");     
-     doc.text(secondColumn_left, starty+13, "HORA DE REGRESO:");
 
-     starty += increment;    
+     doc.text(margin_left*2, starty+13, "FECHA DE REGRESO:"); linea(doc, margin_left, starty)    
+     doc.text(secondColumn_left, starty+13, "HORA DE REGRESO:"); linea(doc, margin_left, starty)
+     starty += increment;
+
      doc.text(margin_left*2, starty+13, "Detalles del traslado: (Traslados incluidos en el costo del servicio):");
      
      //ADD RECTANGLE
+     starty += 6*increment; // text area itinerario
 
-     starty += increment; 
-     starty += increment; 
-     doc.text(margin_left*2, starty+13, "Traslados, Paradas o cualquier paseo no reportado en el contrato tiene costo extra y tiene que ser liquidado al momento, directamente con el operador.");
+     starty = finSeccion(starty, increment)
      
-
+     
+     //Mensaje advertencia
+     doc.setTextColor('#721c24')
+     doc.setFillColor('#f8d7da');
+     doc.roundedRect(margin_left, starty, completePage, 34, 13, 0, 'F');
+     var splittraslados = doc.splitTextToSize("Traslados, Paradas o cualquier paseo no reportado en el contrato tiene costo extra y tiene que ser liquidado al momento, directamente con el operador.", completePage-40);
+     doc.text(splittraslados, pageWidth / 2, starty+13, 'center');
      starty = tmpy+=sizeRectangle;
-     starty += increment;
-     starty += increment;
-
-     // UNIDAD CONTRATADA
-     doc.setFillColor(fillColor) 
-     doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
+     starty += increment+40; //extra increment porue la leyenda de advertencia cubre 2 lineas
+     starty = finSeccion(starty, increment)
      
-
-     doc.text(margin_left*2, starty+13, 'UNIDAD CONTRATADA');
+     
+     
+     // UNIDAD CONTRATADA
+     
+     doc.setTextColor(color)
+     doc.setFillColor(fillColor);
+     doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
+     doc.text("UNIDAD CONTRATADA", pageWidth / 2, starty+13, 'center');
      starty += increment;
-     sizeRectangle = 100;
-     doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 13, 0, 'D');
-     doc.text(margin_left*2, starty+13, "TIPO DE UNIDAD");     
+     
+     sizeRectangle = 70;
+     doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 2, 2, 'S');
+     doc.text(margin_left*2, starty+13, "TIPO DE UNIDAD"); linea(doc, margin_left, starty)   
      doc.text(secondColumn_left, starty+13, "CAPACIDAD:");
      starty += increment;
-     doc.text(margin_left*2, starty+13, 'EQUIPADA CON:');
-     
-     doc.text(margin_left+120, starty+13, 'Aire acondicionado,  Estereo,  Sanitarios, TV/DVD Microfono,  Seguro de pasajeros');
+
+     doc.text(margin_left*2, starty+13, 'EQUIPADA CON:'); linea(doc, margin_left, starty) 
      starty += increment;
+     
+     doc.text(margin_left*2, starty+13, 'Aire acondicionado,  Estereo,  Sanitarios, TV/DVD Microfono,  Seguro de pasajeros');
+     starty += increment; // extra increment por si hay mas cosas que se agregan
+     starty = finSeccion(starty,increment)
 
      // PAGOS
      doc.setFillColor(fillColor) 
      doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
-     
-
-     doc.text(margin_left*2, starty+13, 'PAGOS');
+     doc.text("PAGOS", pageWidth / 2, starty+13, 'center');
      starty += increment;
      sizeRectangle = 50;
-     doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 13, 0, 'D');
+     doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 2, 2, 'S');
      doc.text(margin_left*2, starty+13, "IMPORTE TOTAL:");     
      doc.text(secondColumn_left, starty+13, "$--------");
      starty += increment;
@@ -145,204 +152,48 @@ function Detalles(doc, starty, margin_left ) {
      starty += increment;
      doc.text(margin_left*2, starty+13, "SALDO A PAGAR AL INICIO DEL VIAJE:");     
      doc.text(secondColumn_left, starty+13, "$--------");
-     starty += increment;
+     
+     starty = finSeccion(starty,increment)
 
+     
+
+     //boostrap colors alerts 
+     doc.setTextColor('#856404')
+     doc.setFillColor('#fff3cd');
+     doc.roundedRect(margin_left, starty, completePage, 34, 13, 0, 'F');
+     var splitTitle = doc.splitTextToSize('ACEPTO TERMINOS Y CONDICIONES DE TRANSPORTES TURISTICOS RECORRIENDO KILOMETROS S.A. DE C.V.', completePage);
+     doc.text(splitTitle, pageWidth / 2, starty+13, 'center');
+     doc.setTextColor(color)
+     doc.setFillColor(fillColor);
+     starty = finSeccion(starty,increment)
+     starty = finSeccion(starty,increment)
+
+     
+    
      // FIRMAS
-     doc.setFillColor(fillColor) 
-     doc.roundedRect(margin_left, starty, completePage, 17, 13, 0, 'F');
      
-
-     doc.text(margin_left*2, starty+13, 'ACEPTO TERMINOS Y CONDICIONES DE TRANSPORTES TURISTICOS RECORRIENDO KILOMETROS S.A. DE C.V.');
-     starty += increment;
-     starty += increment;
+     
      sizeRectangle = 80;
-     doc.text(margin_left*2, starty+13, "FIRMA DEL CLIENTE");     
-     doc.text(secondColumn_left, starty+13, "FIRMA PROVEDOR DE SERVICIOS:");
-     
-     
-     
-     
-     
+     doc.text(margin_left*2, starty+13, "FIRMA DEL CLIENTE");    
+     doc.text(secondColumn_left, starty+13, "FIRMA PROVEDOR DE SERVICIOS:"); 
 
+}
 
-     
-     
+function finSeccion(y, increment){
+    return y + 5 + increment;
+}
 
-     // starty += increment; 
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(15, starty, 185, 17, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(30, starty+13, 'HOTEL / DESTINO');
-     
-     // starty += increment; 
-     // doc.setTextColor(color_valores)
-     // var splithoteldestino= doc.splitTextToSize(HOTEL  + ' / ' +  DESTINO, 400);
-     // doc.text(40, starty+13, splithoteldestino);
-
-     // // doc.text(40, starty+13, HOTEL  + ' / ' +  DESTINO);
-     // doc.roundedRect(15, starty, 550, 30, 3, 3, 'D');
-     
-     // //FECHA
-     // starty += increment+10; 
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(15, starty, 550, 17, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(30, starty+13, 'FECHA DE SALIDA');
-     // doc.text(150, starty+13, 'FECHA DE REGRESO');
-     // doc.text(300, starty+13, 'ABORDA EN Y HORARIO');
-     
-     // starty += increment; 
-     // doc.setTextColor(color_valores) 
-     // doc.text(50, starty+13, FECHA_SALIDA);
-     // doc.text(180, starty+13, FECHA_REGRESO);
-     // //doc.text(300, starty+13, "MINERVA A LAS 07:00HRS");
-     // //doc.textWithLink( ABORDA,300, starty+13,{ url: 'https://goo.gl/maps/KgRQhTxJQoMNe8nv9' });
-
-     // var splitAborda = doc.splitTextToSize(ABORDA, 250);
-     // doc.text(300, starty+13, splitAborda);
-
-
-     // doc.roundedRect(15, starty, 550, 30, 3, 3, 'D');
-
-     // //adultos y juniors
-     // starty += increment+10; 
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(15, starty, 95, 33, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(30, starty+13, 'No. ADULTOS ');
-     // doc.text(30, starty+28, 'Y JUNIORS ');
-     
-     // doc.setTextColor(color_valores) 
-     // doc.roundedRect(120, starty, 40, 33, 3, 3, 'D');
-     // doc.text(130, starty+20, adultos_juniors);
-
-
-     // //menores cargo
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(190, starty, 95, 33, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(200, starty+13, 'No. MENORES ');
-     // doc.text(200, starty+28, 'CON CARGO ');
-     
-     // doc.setTextColor(color_valores) 
-     // doc.roundedRect(300, starty, 40, 33, 3, 3, 'D');
-     // doc.text(310, starty+20, menores_cargo);
-     
-     // //menores sin cargo
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(355, starty, 95, 33, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(365, starty+13, 'No. MENORES ');
-     // doc.text(365, starty+28, 'SIN CARGO ');
-     
-     // doc.setTextColor(color_valores) 
-     // doc.roundedRect(465, starty, 40, 33, 3, 3, 'D');
-     // doc.text(475, starty+20, menores_sin_cargo);
-     
-
-     // //Nombre agencia
-     // starty += increment+13; 
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(15, starty, 185, 17, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(30, starty+13, 'NOMBRE DE AGENCIA');
-
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(310, starty, 250, 17, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(325, starty+13, 'TELEFONO AGENCIA');
-     
-     // starty += increment; 
-     // doc.setTextColor(color_valores) 
-     // doc.text(40, starty+13, TRAVELAGENCY_NOMBRE);
-     // doc.roundedRect(15, starty, 250, 17, 3, 3, 'D');
-
-     // //TELEFONO AGENCIA
-     // doc.setTextColor(color_valores) 
-     // doc.roundedRect(310, starty, 250, 17, 3, 3, 'D');
-     // doc.text(325, starty+13, TRAVELAGENCY_TELEFONO);
-
-     
-
-     // //CIUDAD
-     
-     // starty += increment; 
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(15, starty, 250, 17, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(30, starty+13, 'CIUDAD');
-
-     // //AGENTE
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(310, starty, 250, 17, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(325, starty+13, 'AGENTE');
-     
-     // starty += increment; 
-     // doc.setTextColor(color_valores) 
-     // doc.text(40, starty+13, TRAVELAGENCY_CIUDAD);
-     // doc.roundedRect(15, starty, 250, 17, 3, 3, 'D');
-
-     // doc.setTextColor(color_valores) 
-     // doc.roundedRect(310, starty, 250, 17, 3, 3, 'D');
-     // doc.text(325, starty+13, AGENTE);
-
-     
-     // // if(LOGOAGENCIA){ //REMOVE ! to production
-     //   //CLAVE RESERVACION
-     //   starty += increment; 
-     //   doc.setFillColor(232,68, 86) //red
-     //   doc.roundedRect(15, starty, 185, 17, 3, 3, 'F');
-     //   doc.setTextColor(color_labels)
-     //   doc.text(30, starty+13, 'CLAVE DE RESERVACION');
-
-     //   try {
-     //     // starty += increment; 
-     //     doc.addImage(LOGOAGENCIA, 'JPEG', 385, starty-3, 80, 80,undefined,'FAST');
-         
-     //     doc.setTextColor(color_valores)  
-     //     //doc.roundedRect(310, starty, 250, 70, 3, 3, 'D');
-         
-     //   } catch (error) {
-     //     console.log(error)
-     //     // console.log(LOGOAGENCIA)
-     //   }
-        
-     //   starty += increment; 
-     //   doc.setTextColor(color_valores) 
-     //   doc.text(40, starty+13, CLAVE);
-     //   doc.roundedRect(15, starty, 250, 17, 3, 3, 'D');
-     //   starty += (increment/4); 
-      
-
-     // //INCLUYE
-     // starty += increment; 
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(15, starty, 185, 17, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(30, starty+13, 'OBSERVACIONES');
-     
-     // starty += increment; 
-     // doc.setTextColor(color_valores) 
-     // let splitObservacion = doc.splitTextToSize(INCLUYE, 400);
-     // doc.text(40, starty+18, splitObservacion);
-     // doc.roundedRect(15, starty+5, 550, 17, 3, 3, 'D');
-
-     //   //OBSERVACIONES
-     // starty += increment; 
-     // doc.setFillColor(232,68, 86) //red
-     // doc.roundedRect(15, starty, 185, 17, 3, 3, 'F');
-     // doc.setTextColor(color_labels)
-     // doc.text(30, starty+13, 'INCLUYE');
-     
-     // starty += increment; 
-     // doc.setTextColor(color_valores) 
-     // splitObservacion = doc.splitTextToSize(redondo + " -- "+ OBSERVACIONES + " -- " + ABORDA, 400);
-     // doc.text(40, starty+13, splitObservacion);
-
-     // doc.roundedRect(15, starty, 550, 72, 3, 3, 'D');
-
-
+function linea(doc, margin_left, starty){
+    let margin_between_text_line = 15
+    doc.setDrawColor(71, 217, 252); //line color
+    doc.setLineWidth(1.5); //line width
+    doc.line(margin_left*2,
+        starty+margin_between_text_line,
+        margin_left*10,
+        starty+margin_between_text_line
+        );
+    doc.setDrawColor(0);
+    doc.setLineWidth(0);
 }
 
 function Contrato(doc, PAPELETA, cantidad) {
@@ -357,50 +208,27 @@ function Contrato(doc, PAPELETA, cantidad) {
         
         let margin = 13;
         let margin_left= 30;
-        let fillColor_Folio = "#eee"
-        let fillColor_FolioN = "#ccc"
-        let secondColumn_left = 300;
         
+        let colorRazon= "#004085"; 
+        doc.setTextColor(colorRazon);
         doc.text(margin_left, starty+=margin, 'CONTRATO DE PRESTACION DE SERVICIOS DE TRANSPORTE');
         doc.text(margin_left, starty+=margin, 'RECORRIENDO KILOMETROS S.A. DE C.V. RFC: RKI180820PJA');
-        doc.text(margin_left, starty+=margin, 'contacto@recorriendokilometros.com.mx');
+        doc.textWithLink('contacto@recorriendokilometros.com.mx', margin_left, starty+=margin, { url: 'mailto:contacto@recorriendokilometros.com.mx' });
         doc.text(margin_left, starty+=margin, 'Telefonos: 3316954455 - 3322553662');
+        
 
 
         //FOLIO
-        doc.setFillColor(fillColor_Folio) 
+        let color = "#0c5460"
+        let background = "#d1ecf1"
+        let secondColumn_left = 300;
+        doc.setTextColor(color);
+        doc.setFillColor(background) 
         doc.roundedRect(secondColumn_left+150, 10, 100, 17, 13, 0, 'F');
-        doc.text(secondColumn_left+175, 10+margin, "FOLIO:");
-        doc.setFillColor(fillColor_FolioN) 
+        doc.text(secondColumn_left+175, 10+margin, "FOLIO");
+        doc.setFillColor(background) 
         doc.roundedRect(secondColumn_left+150, 27, 100, 17, 13, 0, 'F');
-        doc.text(secondColumn_left+175, 27+margin, "123556:");
-        
-        // doc.text(secondColumn_left + 150, starty+13, ":");
-        // starty += increment;
-        
-          
-        //   doc.setFontSize(11);
-        //   doc.setDrawColor(0);
-        //   //   doc.setFillColor(7, 109, 150); //blue
-        //   doc.setFillColor(232,68, 86) //red
-        //   doc.roundedRect(470, 30, 100, 44, 3, 3, 'FD'); //Fill D/border
-          
-        //   doc.setTextColor(255,255,255);
-        //   doc.text(500, 43, 'FOLIO');
-        //   doc.setTextColor(0,0,0);
-
-        //   doc.setDrawColor(0);
-        //   doc.setFillColor(255, 255, 255);
-        //   doc.rect(470, 52, 100, 25,'F'); 
-          
-        //   doc.setTextColor(220, 43, 27);
-        //   doc.text(490, 64, PAPELETA);
-        
-
-        //   doc.setDrawColor(0);
-        //   doc.setFillColor(255, 255, 255);
-        //   doc.roundedRect(470, 30, 100, 44, 3, 3); 
-
+        doc.text(secondColumn_left+175, 27+margin, "123556");
         Detalles(doc, starty+=margin, margin_left)
 }
 
