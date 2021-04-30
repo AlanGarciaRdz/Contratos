@@ -52,11 +52,12 @@ function Detalles(doc, starty, margin_left ) {
      starty += increment;
      sizeRectangle =  40;
      doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 2, 2, 'S');
-     doc.text(margin_left*2, starty+13, "NOMBRE:"); linea(doc, margin_left, starty)
-     doc.text(secondColumn_left, starty+13, "TELEFONO:");   linea(doc, margin_left, starty)
+     doc.text(margin_left*2, starty+13, "NOMBRE:"); linea2(doc, starty,margin_left, completePage)
+     
+     doc.text(secondColumn_left, starty+13, "TELEFONO:");   linea2(doc, starty,margin_left, completePage)
      starty += increment;
 
-     doc.text(margin_left*2, starty+13, "DOMICILIO:");    linea(doc, margin_left, starty)
+     doc.text(margin_left*2, starty+13, "DOMICILIO:");    linea2(doc, starty,margin_left, completePage)
 
      starty = tmpy+=sizeRectangle;   
      starty = finSeccion(starty,increment)
@@ -69,34 +70,37 @@ function Detalles(doc, starty, margin_left ) {
      starty += increment;
      sizeRectangle = 242;
      doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 2, 2, 'S');
-     doc.text(margin_left*2, starty+13, "NOMBRE:");   linea(doc, margin_left, starty)     
-     doc.text(secondColumn_left, starty+13, "TELEFONO:");
+     doc.text(margin_left*2, starty+13, "NOMBRE:");   linea2(doc, starty,margin_left, completePage)     
+     doc.text(secondColumn_left, starty+13, "TELEFONO:"); linea2(doc, starty,margin_left, completePage)
      starty += increment;
 
-     doc.text(margin_left*2, starty+13, "DESTINO:");  linea(doc, margin_left, starty)   
-     doc.text(secondColumn_left, starty+13, "UBICACION:");  linea(doc, margin_left, starty)
+     doc.text(margin_left*2, starty+13, "DESTINO:");  linea2(doc, starty,margin_left, completePage)   
+     doc.text(secondColumn_left, starty+13, "UBICACION:");  linea2(doc, starty,margin_left, completePage)
      starty += increment;
 
 
-     doc.text(margin_left*2, starty+13, "FECHA DE SALIDA:");  linea(doc, margin_left, starty)
-     doc.text(margin_left+threeColumn, starty+13, "PRESENTARSE:");  linea(doc, margin_left, starty)
-     doc.text(threeColumn*2, starty+13, "HORA SALIDA:"); linea(doc, margin_left, starty)
+     doc.text(margin_left*2, starty+13, "FECHA DE SALIDA:");  
+     doc.text(margin_left+threeColumn, starty+13, "PRESENTARSE:");  
+     doc.text(threeColumn*2, starty+13, "HORA SALIDA:"); 
      starty += increment;
 
-     doc.text(margin_left*2, starty+13, "DOMICILIO SALIDA:"); linea(doc, margin_left, starty)
+     doc.text(margin_left*2, starty+13, "DOMICILIO SALIDA:"); linea2(doc, starty,margin_left, completePage)
      starty += increment;
 
-     doc.text(margin_left*2, starty+13, "UBICACION:");  linea(doc, margin_left, starty)
+     doc.text(margin_left*2, starty+13, "UBICACION:");  linea2(doc, starty,margin_left, completePage)
      starty += increment;    
 
-     doc.text(margin_left*2, starty+13, "REFERENCIAS:"); linea(doc, margin_left, starty)
+     doc.text(margin_left*2, starty+13, "REFERENCIAS:"); linea2(doc, starty,margin_left, completePage)
      starty += increment;
 
-     doc.text(margin_left*2, starty+13, "FECHA DE REGRESO:"); linea(doc, margin_left, starty)    
-     doc.text(secondColumn_left, starty+13, "HORA DE REGRESO:"); linea(doc, margin_left, starty)
+     doc.text(margin_left*2, starty+13, "FECHA DE REGRESO:"); linea2(doc, starty,margin_left, completePage)    
+     doc.text(secondColumn_left, starty+13, "HORA DE REGRESO:"); linea2(doc, starty,margin_left, completePage)
      starty += increment;
 
      doc.text(margin_left*2, starty+13, "Detalles del traslado: (Traslados incluidos en el costo del servicio):");
+
+     doc.roundedRect(margin_left*2, starty+18, completePage-40, 100, 2, 2, 'S');
+     
      
      //ADD RECTANGLE
      starty += 6*increment; // text area itinerario
@@ -126,11 +130,11 @@ function Detalles(doc, starty, margin_left ) {
      
      sizeRectangle = 70;
      doc.roundedRect(margin_left, starty, completePage, sizeRectangle, 2, 2, 'S');
-     doc.text(margin_left*2, starty+13, "TIPO DE UNIDAD"); linea(doc, margin_left, starty)   
+     doc.text(margin_left*2, starty+13, "TIPO DE UNIDAD"); linea2(doc, starty,margin_left, completePage)   
      doc.text(secondColumn_left, starty+13, "CAPACIDAD:");
      starty += increment;
 
-     doc.text(margin_left*2, starty+13, 'EQUIPADA CON:'); linea(doc, margin_left, starty) 
+     doc.text(margin_left*2, starty+13, 'EQUIPADA CON:'); linea2(doc, starty,margin_left, completePage) 
      starty += increment;
      
      doc.text(margin_left*2, starty+13, 'Aire acondicionado,  Estereo,  Sanitarios, TV/DVD Microfono,  Seguro de pasajeros');
@@ -183,17 +187,40 @@ function finSeccion(y, increment){
     return y + 5 + increment;
 }
 
-function linea(doc, margin_left, starty){
+function linea2(doc, starty,margin_left, completePage){
+    doc.setLineDash([1, 1], 0);
+    
     let margin_between_text_line = 15
     doc.setDrawColor(71, 217, 252); //line color
-    doc.setLineWidth(1.5); //line width
+    // doc.setLineWidth(1); //line width
+    
     doc.line(margin_left*2,
         starty+margin_between_text_line,
-        margin_left*10,
+        completePage,
         starty+margin_between_text_line
         );
+    
     doc.setDrawColor(0);
     doc.setLineWidth(0);
+    doc.setLineDash(0);
+}
+
+function linea(doc, margin, starty){
+    doc.setLineDash([1, 1], 0);
+    
+    let margin_between_text_line = 15
+    doc.setDrawColor(71, 217, 252); //line color
+    // doc.setLineWidth(1); //line width
+    
+    doc.line(margin*2,
+        starty+margin_between_text_line,
+        margin*10,
+        starty+margin_between_text_line
+        );
+    
+    doc.setDrawColor(0);
+    doc.setLineWidth(0);
+    doc.setLineDash(0);
 }
 
 function Contrato(doc, PAPELETA, cantidad) {
@@ -216,7 +243,6 @@ function Contrato(doc, PAPELETA, cantidad) {
         doc.textWithLink('contacto@recorriendokilometros.com.mx', margin_left, starty+=margin, { url: 'mailto:contacto@recorriendokilometros.com.mx' });
         doc.text(margin_left, starty+=margin, 'Telefonos: 3316954455 - 3322553662');
         
-
 
         //FOLIO
         let color = "#0c5460"
