@@ -22,19 +22,47 @@ class App extends React.Component {
         
 	ContratoPDF.Contrato(doc, "PAPELETA", "cantidad")
 	
-
-	 
 	let data = doc.output('datauristring');
 	// doc.output('save', 'filename.pdf'); //Try to save PDF as a file (not works on ie before 10, and some mobile devices)
 	// doc.output('datauristring');        //returns the data uri string
 	// doc.output('datauri');              //opens the data uri in current window
 	// doc.output('dataurlnewwindow');     //opens the data uri in new window
 
-	let iframe = `<iframe type="application/pdf" src="${data}#toolbar=0&navpanes=0" width="100%" height="1100px" frameborder="0"></iframe>`;
+	
 
-	this.setState({
-	  embed: iframe
-	});
+	// let starty = 90;
+	// let increment = 24;
+	// let tabinsidesection = 17
+	// let color_labels = (255,255,255);//(255,255,255);
+	// let color_azules = (62, 53, 125);//(255,255,255);
+	// let color_valores = (0,0,0);//(255,255,255);
+	// doc.setDrawColor(29,34,78);
+	// doc.setLineWidth(.8)
+
+	// doc.setTextColor(color_valores)
+	// doc.setFont('helvetica', "bold")
+	// doc.text(20, starty+13, 'DATOS DEL CONTRATANTE');
+	// doc.setFont('helvetica', "normal")
+	// starty += tabinsidesection; 
+
+	// doc.setFillColor(126, 152, 186) //azul relleno
+	// doc.roundedRect(15, starty, 90, 51, 6, 6, 'F');
+	// doc.rect(95, starty, 10, 51, 'F')
+	// doc.roundedRect(15, starty, 550, 51, 6, 6, 'D');
+
+
+	// doc.setTextColor(color_labels);
+	// doc.text(30, starty+13, 'NOMBRE');
+	// doc.setTextColor(color_valores) 
+	// doc.text(110, starty+13, "fasd");
+	// doc.setLineWidth(.5)
+	// doc.line(15, starty+17, 565, starty+17);
+
+	// this.setState({
+	//   embed: iframe
+	// });
+
+	doc.output('save', 'filename.pdf'); 
   }
 
   leer_contrato = () => {
@@ -117,7 +145,7 @@ class App extends React.Component {
         "fecha_contrato": document.getElementsByName("fecha_contrato")[0].value,
         "nombre_contratante": document.getElementsByName("nombre_contratante")[0].value,
         "telefono_contratante": document.getElementsByName("telefono_contratante")[0].value,
-        "direccion_contratante": document.getElementsByName("direccion_contratante")[0].value,
+        // "direccion_contratante": document.getElementsByName("direccion_contratante")[0].value,
         "cliente_itinerario": document.getElementsByName("cliente_itinerario")[0].value,
         "telefono_itinerario": document.getElementsByName("telefono_itinerario")[0].value,
         "destino_itinerario": document.getElementsByName("destino_itinerario")[0].value,
@@ -181,338 +209,350 @@ class App extends React.Component {
   render() {
 
     return <div className="App">
-      <header className="App-header">
-        <form>
-          <div className="row"></div>
-          <div className="col-md-8">
-        	<h4 className="text-primary">CONTRATO DE PRESTACION DE SERVICIOS DE TRANSPORTE</h4>
-        	<h5 className="text-primary-Razon">Recorriendo Kilometros S.A. de C.V.</h5>
-        	<h5 className="text-primary">RKI180820PJA</h5>
-        	<h5 className="text-primary">contacto@recorriendokilometros.com.mx</h5>
-        	<h5 className="text-primary">Telefonos: 3316954455 - 3322553662 </h5>
-        </div>
-        
-        <div className="col-md-4 .col-3">
-          <span className="input-group-addon" id="basic-addon1">Fecha del contrato</span>
-		      <input type="text" className="form-controls effect-1" id="inputtext_date" placeholder="DD/MM/ÑÑÑÑ" aria-describedby="basic-addon1" name="fecha_contrato"/>
-			    <span className="focus-border"></span>
-        </div>
-
-        <div className="panel panel-default">
-          <div className="panel-heading" id="titulos" >DATOS DEL CONTRATANTE</div>
-        <div className="panel-body">
-
-          <div className="col-md-8">
-            <div className="input-group .col-3">
-            <span className="input-group-addon" id="basic-addon1">Nombre del contratante: </span>
-            <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="nombre_contratante"/>
-            <span className="focus-border"></span>
-          </div>
-  	      </div>
-          <div className="col-md-4">
-            <div className="input-group">
-            <span className="input-group-addon" id="basic-addon1">Telefono:</span>
-            <input type="text" className="form-controls effect-1" id="inputtext_telefono" placeholder="" aria-describedby="basic-addon1" name="telefono_contratante"/>
-            <span className="focus-border"></span>
-              </div>
-          </div>
-        <div className="col-md-12">
-          <div className="input-group">
-            <span className="input-group-addon" id="basic-addon1">Direccion:</span>
-            <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="direccion_contratante"/>	
-            <span className="focus-border"></span>
-          </div>
-        </div> 
-
-        <div className="col-md-8">
-  		<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Nombre encargado de la unidad: </span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="cliente_itinerario"/>
-		  <span className="focus-border"></span>
-	 	</div>
-  	</div>
-    <div className="col-md-4">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Telefono:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext_telefono" placeholder="" aria-describedby="basic-addon1" name="telefono_itinerario"/>
-		  <span className="focus-border"></span>
-  	    </div>
-    </div>
-
-
-        </div>   
-      </div>   
-{/* <!-- DATOS CONTRATANTE --> */}
-
-
-{/* <!-- ITINERARIO --> */}
-<div className="panel panel-default"> 
-  <div className="panel-heading">ITINERARIO</div>
-  <div className="panel-body">
-    
-    <div className="col-md-4">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Fecha salida</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext_date" placeholder="DD/MM/YYYY" aria-describedby="basic-addon1" name="fechasalida_itineario"/>
-		  <span className="focus-border"></span>
-  	</div>
-    	
-    </div>
-    <div className="col-md-4">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Presentarse:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="00:00" aria-describedby="basic-addon1" name="presentarse_itineario"/>
-		  <span className="focus-border"></span>
-		  <span className="input-group-addon">hrs</span>
-  	     </div>
-    	
-    </div>
-    <div className="col-md-4">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Hora salida:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="00:00" aria-describedby="basic-addon1" name="horasalida_itineario"/>
-		  <span className="focus-border"></span>
-		  <span className="input-group-addon">hrs</span>
-  	     </div>
-    </div>
-    <div className="col-md-12">
-		<div className="input-group">
-			<span className="input-group-addon" id="basic-addon1">Direccion de salida:</span>
-			<input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="direccionsalida_itinerario"/>	
-			<span className="focus-border"></span>
-	 	</div>
-	</div> 
-	<div className="col-md-6">
-		<div className="input-group">
-				<span className="input-group-addon" id="basic-addon1">Ubicacion direccion de salida:</span>
-				<input type="text" className="form-controls effect-1" id="ubicacion" placeholder="" aria-describedby="basic-addon1" name="ubicacion_direccion_salida_itinerario"/>
-				<span className="focus-border"></span>
-		</div>
-	</div>
-
-	<div className="col-md-6">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Colonia:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="colonia_itineario"/>
-		  <span className="focus-border"></span>
-  	     </div>
-    	
-    </div>
-    <div className="col-md-6">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Ciudad:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="ciudad_itineario"/>
-		  <span className="focus-border"></span>
-  	     </div>
-    	
-    </div>
-    <div className="col-md-6">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Entre calles:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="entrecalles_itinerario"/>
-		  <span className="focus-border"></span>
-  	     </div>
-    </div>
-    <div className="col-md-12">
-		<div className="input-group">
-			<span className="input-group-addon" id="basic-addon1">Referencias:</span>
-			<input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="referencias_itinerario"/>	
-			<span className="focus-border"></span>
-	 	</div>
-	</div> 
-  <div className="col-md-8">
-  		<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Destino:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="destino_itinerario"/>
-		  <span className="focus-border"></span>
-		</div>
-		
-	  </div>
-	<div className="col-md-4">
-		<div className="input-group">
-				<span className="input-group-addon" id="basic-addon1">Ubicacion:</span>
-				<input type="text" className="form-controls effect-1" id="ubicacion" placeholder="" aria-describedby="basic-addon1" name="ubicacion_destino_itinerario"/>
-				<span className="focus-border"></span>
-		</div>
-	</div>
-
-  <div className="col-md-4">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Fecha de regreso:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext_date" placeholder="DD/MM/YYYY" aria-describedby="basic-addon1" name="fecharegreso_itinerario"/>
-		  <span className="focus-border"></span>
-  	     </div>
-    	
-    </div>
-    <div className="col-md-4">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Hora de regreso:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="00:00" aria-describedby="basic-addon1" name="horaregreso_itineario"/>
-		  <span className="focus-border"></span>
-		  <span className="input-group-addon">hrs</span>
-  	     </div>
-    	
-    </div>
-
-	<div className="col-md-12">
-	<span className="input-group-addon "  id="basic-addon1">Detalles del traslado: (Traslados incluidos en el costo del servicio):</span>
-	<textarea className="form-controls effect-1" id="inputtext" rows="5"  name="detalles_itineario"></textarea>
-
-	<div className="alert alert-danger upper font-error" role="alert">
-	  <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-	  <span className="sr-only">Error:</span>
-	   Traslados,  Paradas o cualquier paseo no reportado en el contrato tiene costo extra y tiene que ser liquidado al momento, directamente con el operador.
-	</div>
-
-    
-
-
-	</div>
-    </div>
-  </div>  
-{/* <!-- ITINERARIO --> */}
-
-{/* <!-- Unidad contratada --> */}
-<div className="panel panel-default"> 
-  <div className="panel-heading">UNIDAD CONTRATADA</div>
-  <div className="panel-body">
-  	
-  	<div className="col-md-6">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Tipo de unidad:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="Bus/Sprinter/Hiace/auto" aria-describedby="basic-addon1" name="unidad_unidad"/>
-		  <span className="focus-border"></span>
-  	     </div>
-    	
-    </div>
-    <div className="col-md-6">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Capacidad:</span>
-		  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="capacidad_unidad"/>
-		  <span className="focus-border"></span>
-		  <span className="input-group-addon">Pasajeros</span>
-  	     </div>
-    	
-    </div>
-    <div className="col-md-12">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Unidad equipada con:</span>
-  	    </div>
-  	    <div className="row">
-	  	    <div className="col-md-4"><label><input type="checkbox" value="" name="ACC_unidad" checked="si"/>Aire acondicionado</label></div>
-	  	    <div className="col-md-4"><label><input type="checkbox" value="" name="estereo_unidad" checked="si"/>Estereo</label></div>
-	  	    <div className="col-md-4"><label><input type="checkbox" value="" name="sanitarios_unidad" />Sanitarios</label></div>
-	    </div>
-	    <div className="row">
-	  	    <div className="col-md-4"><label><input type="checkbox" value="" name="tvdvd_unidad" checked="si"/>TV/DVD</label></div>
-	  	    <div className="col-md-4"><label><input type="checkbox" value="" name="microfono_unidad" />Microfono</label></div>
-	  	    <div className="col-md-4"><label><input type="checkbox" value="" name="seguro_unidad" checked="si"/>Seguro de pasajeros</label></div>
-	    </div>
-	    <div className="row">
-	    	<div className="input-group">
-		  		<span className="input-group-addon" id="basic-addon1">OTROS:</span>
-				  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="otros_unidad"/>
-				  <span className="focus-border"></span>
-  	     	</div>
-	    </div>
-
-    </div>
-    
-
-
-  </div>
-
-
-</div>  
-{/* <!-- Unidad contratada --> */}
-
-{/* <!-- Pagos--> */}
-<div className="panel panel-default"> 
-  <div className="panel-heading">PAGOS</div>
-  <div className="panel-body">
-
-  <div className="col-md-12">
-    	
-
-  	<span className="input-group-addon" id="basic-addon1">Importe Total: </span>
-	  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="Numero y letra" aria-describedby="basic-addon1" name="total_pagos"/>
-	  <span className="focus-border"></span>
-  </div>
-
-  <div className="col-md-12">
-  	<span className="input-group-addon" id="basic-addon1">Anticipo (s): </span>
-	  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="Numero y letra" aria-describedby="basic-addon1" name="anticipo_pagos"/>
-	  <span className="focus-border"></span>
-  </div>
-  <div className="col-md-12">
-  	<span className="input-group-addon" id="basic-addon1">Saldo a pagar al incio del viaje:</span>
-	  <input type="text" className="form-controls effect-1" id="inputtext" placeholder="Numero y letra" aria-describedby="basic-addon1" name="pendiente_pagos"/>
-	  <span className="focus-border"></span>
-  </div>
-
-	</div>
-
-</div>
-
-{/* <!-- Pie de contrato--> */}
-<div className="panel panel-default"> 
-	<div className="panel-heading">ACEPTO TERMINOS Y CONDICIONES DE TRANSPORTES TURISTICOS RECORRIENDO KILOMETROS SA DE CV </div>
-  <div className="panel-body">
-
-  	<div className="col-md-6">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Fima cliente</span>
-		  
-  	     </div>
-    	
-    </div>
-    <div className="col-md-6">
-    	<div className="input-group">
-		  <span className="input-group-addon" id="basic-addon1">Firma Prestador de servicios</span>
-		  
-  	     </div>
-    	
-    </div>
-  </div>
-
-</div>
-
-
-
-
-
-	<div className="row">
-		<div className="col-md-8">
-			<div className="input-group" >
-				<span className="input-group-addon" id="basic-addon1">Identificador del contrato:</span>
-				<input type="text" className="form-controls effect-1" id="inputtext"  placeholder="" aria-describedby="basic-addon1" name="nombre_contrato"/>
-				<span className="focus-border"></span>
+	<div id="booking" className="section">
+		<div class="row">
+		<div class="booking-form">
+			<div class="form-header">
+				<h1>CONTRATO RK</h1>
 			</div>
-		</div>
-		<div className="col-md-4">
-
-			<div className="input-group">
-				<span className="input-group-addon" id="basic-addon1">Clave de reservacion:</span>
-				<input type="text" className="form-controls effect-1 clave" placeholder="" aria-describedby="basic-addon1" name="clave_reservacion" />
-				<span className="focus-border"></span>
+			<form>
+				
+			<div className="row">
+			<div className="col-sm-6"></div>
+				<div className="col-sm-6">
+					<div className="form-group">
+						<span className="form-label">Fecha del contrato:</span>
+						<input type="text" className="form-control" 
+				  id="inputtext_date" placeholder="DD/MM/ÑÑÑÑ" 
+				   name="fecha_contrato"/>
+					</div>
+				</div>
+				
 			</div>
+
+				<div className="row">
+					<div className="col-sm-6">
+						<div className="form-group">
+							<span className="form-label">Nombre del contratante:</span>
+							<input type="text" className="form-control" id="inputtext" 
+								placeholder="Nombre de quien contrata" 
+								 
+								name="nombre_contratante"/>
+						</div>
+					</div>
+
+					<div className="col-sm-6">
+						<div className="form-group">
+							<span className="form-label">Telefono:</span>
+							<input type="text" className="form-control" id="inputtext_telefono"
+								placeholder="Telefono"
+								
+								name="telefono_contratante"/>
+						</div>
+					</div>
+
+
+					
+
+					<div className="col-md-1">
+						<div className="form-group">
+							<span className="form-label">Nombre encargado de la unidad:</span>
+							<input type="text" className="form-control" id="inputtext"
+							 	placeholder="Encargado"
+								name="cliente_itinerario"/>
+						</div>
+					</div>
+
+					<div className="col-md-1">
+						<div className="form-group">
+							<span className="form-label">Telefono:</span>
+							<input type="text" className="form-control" id="inputtext_telefono"
+							placeholder="Telefono"
+							name="telefono_itinerario"/>
+						</div>
+					</div>
+				</div>   
+      
+				{/* <!-- DATOS CONTRATANTE --> */}
+
+				{/* <!-- ITINERARIO --> */}
+				{/* <span className="form-label-section">ITINERARIO</span> */}
+
+				{/* <div className="panel panel-default"> */}
+
+				{/* <span class="form-label">Pickup Date</span>
+				<input class="form-control" type="date" required> */}
+
+					<div className="row">
+						<div className="col-sm-4">
+							<div className="input-group">
+								<span class="form-label">Fecha salida</span>
+								<input class="form-control" 
+									name="fechasalida_itineario" 
+									id="inputtext_date" 
+									placeholder="MM/DD/YYYY" 
+									type="date" required/>								
+							</div>
+						</div>
+						<div className="col-sm-4">
+							<div className="input-group">
+								<span className="form-label">Presentarse:</span>
+								<input type="text" className="form-control"
+									 id="inputtext"
+									 placeholder="00:00 hrs"
+									 name="presentarse_itineario"/>
+
+								
+								
+							</div>
+						</div>
+						<div className="col-md-4">
+							<div className="input-group">
+								<span className="form-label">Hora salida:</span>
+								<input type="text" className="form-control"
+									 id="inputtext"
+									 placeholder="00:00 hrs"
+									 name="horasalida_itineario"/>
+							</div>
+						</div>
+
+						<div className="col-md-4">
+							<div className="input-group">
+								<span className="form-label">Fecha de regreso:</span>
+								<input type="text" className="form-control" 
+									id="inputtext_date" 
+									placeholder="DD/MM/YYYY"  name="fecharegreso_itinerario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-4">
+							<div className="input-group">
+								<span className="form-label">Hora de regreso:</span>
+								<input type="text" className="form-control" 
+									id="inputtext" 
+									placeholder="00:00"  name="horaregreso_itineario"/>
+								<span className="focus-border"></span>
+								<span className="form-label">hrs</span>
+							</div>
+						</div>
+
+
+						<div className="col-md-1">
+							<div className="form-group">
+								<span className="form-label">Direccion de salida:</span>
+								<input type="text" className="form-control" 
+									id="inputtext" 
+									placeholder=""  
+									name="direccionsalida_itinerario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="form-group">
+								<span className="form-label">Ubicacion direccion de salida:</span>
+								<input type="text" className="form-control" 
+									id="ubicacion" 
+									placeholder=""  
+									name="ubicacion_direccion_salida_itinerario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="form-group">
+								<span className="form-label">Colonia:</span>
+								<input type="text" className="form-control" 
+									id="inputtext" 
+									placeholder=""  
+									name="colonia_itineario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="form-group">
+								<span className="form-label">Ciudad:</span>
+								<input type="text" className="form-control" 
+									id="inputtext" 
+									placeholder=""  
+									name="ciudad_itineario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="form-group">
+								<span className="form-label">Entre calles:</span>
+								<input type="text" className="form-control" 
+									id="inputtext" 
+									placeholder=""  
+									name="entrecalles_itinerario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-12">
+							<div className="form-group">
+								<span className="form-label">Referencias:</span>
+								<input type="text" className="form-control" 
+									id="inputtext" 
+									placeholder=""  
+									name="referencias_itinerario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-1">
+							<div className="form-group">
+								<span className="form-label">Destino:</span>
+								<input type="text" className="form-control" 
+									id="inputtext" 
+									placeholder=""  
+									name="destino_itinerario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-4">
+							<div className="form-group">
+								<span className="form-label">Ubicacion:</span>
+								<input type="text" className="form-control" 
+									id="ubicacion" 
+									placeholder=""  
+									name="ubicacion_destino_itinerario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						
+						<div className="col-md-12">
+							<span className="form-label " >Detalles del traslado: (Traslados incluidos en el costo del servicio):</span>
+							<textarea className="form-control" id="inputtext" rows="5"  name="detalles_itineario"></textarea>
+						</div>
+					</div>
+				{/* </div>   */}
+{/* 
+				<!-- ITINERARIO --> */}
+
+{/* 
+				<!-- Unidad contratada --> */}
+
+				<div className="panel panel-default">
+					<div className="panel-heading">UNIDAD CONTRATADA</div>
+					<div className="panel-body">
+						<div className="col-md-6">
+							<div className="input-group">
+								<span className="form-label">Tipo de unidad:</span>
+								<input type="text" className="form-control" id="inputtext" placeholder="Bus/Sprinter/Hiace/auto"  name="unidad_unidad"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="input-group">
+								<span className="form-label">Capacidad:</span>
+								<input type="text" className="form-control" id="inputtext" placeholder=""  name="capacidad_unidad"/>
+								<span className="focus-border"></span>
+								<span className="form-label">Pasajeros</span>
+							</div>
+						</div>
+						<div className="col-md-12">
+							<div className="input-group">
+								<span className="form-label">Unidad equipada con:</span>
+							</div>
+							<div className="row">
+								<div className="col-md-4">
+									<label>
+										<input type="checkbox" value="" name="ACC_unidad" checked="si"/>Aire acondicionado
+									</label>
+								</div>
+								<div className="col-md-4">
+									<label>
+										<input type="checkbox" value="" name="estereo_unidad" checked="si"/>Estereo
+									</label>
+								</div>
+								<div className="col-md-4">
+									<label>
+										<input type="checkbox" value="" name="sanitarios_unidad" />Sanitarios
+									</label>
+								</div>
+							</div>
+							<div className="row">
+								<div className="col-md-4">
+									<label>
+										<input type="checkbox" value="" name="tvdvd_unidad" checked="si"/>TV/DVD
+									</label>
+								</div>
+								<div className="col-md-4">
+									<label>
+										<input type="checkbox" value="" name="microfono_unidad" />Microfono
+									</label>
+								</div>
+								<div className="col-md-4">
+									<label>
+										<input type="checkbox" value="" name="seguro_unidad" checked="si"/>Seguro de pasajeros
+									</label>
+								</div>
+							</div>
+							<div className="row">
+								<div className="input-group">
+									<span className="form-label">OTROS:</span>
+									<input type="text" className="form-control" id="inputtext" placeholder=""  name="otros_unidad"/>
+									<span className="focus-border"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>  
+{/* 
+				<!-- Unidad contratada --> */}
+
+{/* 
+				<!-- Pagos--> */}
+
+				<div className="panel panel-default">
+					<div className="panel-heading">PAGOS</div>
+					<div className="panel-body">
+						<div className="col-md-12">
+							<span className="input-group-addon">Importe Total: </span>
+							<input type="text" className="form-control" id="inputtext" placeholder="Numero y letra"  name="total_pagos"/>
+							<span className="focus-border"></span>
+						</div>
+						<div className="col-md-12">
+							<span className="input-group-addon">Anticipo (s): </span>
+							<input type="text" className="form-control" id="inputtext" placeholder="Numero y letra"  name="anticipo_pagos"/>
+							<span className="focus-border"></span>
+						</div>
+						<div className="col-md-12">
+							<span className="input-group-addon">Saldo a pagar al incio del viaje:</span>
+							<input type="text" className="form-control" id="inputtext" placeholder="Numero y letra"  name="pendiente_pagos"/>
+							<span className="focus-border"></span>
+						</div>
+					</div>
+				</div>
+
+{/* 
+				<!-- Pie de contrato--> */}
+
+	
+				<div className="row">
+					<div className="col-md-1">
+						<div className="input-group" >
+							<span className="input-group-addon">Identificador del contrato:</span>
+							<input type="text" className="form-control" id="inputtext"  placeholder=""  name="nombre_contrato"/>
+							<span className="focus-border"></span>
+						</div>
+					</div>
+					<div className="col-md-4">
+						<div className="input-group">
+							<span className="input-group-addon">Clave de reservacion:</span>
+							<input type="text" className="form-control clave" placeholder=""  name="clave_reservacion" />
+							<span className="focus-border"></span>
+						</div>
+					</div>
+				</div>
+				<div className="previewHTML" dangerouslySetInnerHTML={{ __html: this.state.embed}}/>
+			</form>
+			<button onClick={this.leer_contrato} id="leercontrato">Leer contrato</button>
+			<button onClick={this.Guardar_Reservacion} id="guardarcontrato">Guardar contrato</button>
+			<button onClick={this.crear_PDF} id="guardarcontrato">crear PDF</button>
 		</div>
 	</div>
-
-
-	<div className="previewHTML" dangerouslySetInnerHTML={{ __html: this.state.embed}}/>
-
-        
-  </form>    
-      </header>
-      
-      <button onClick={this.leer_contrato} id="leercontrato">Leer contrato</button>
-      <button onClick={this.Guardar_Reservacion} id="guardarcontrato">Guardar contrato</button>
-	  <button onClick={this.crear_PDF} id="guardarcontrato">crear PDF</button>
-	  
-      
-
-    </div>
+</div> 
+</div>
+	
     
   }
 }

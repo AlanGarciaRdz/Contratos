@@ -1,5 +1,8 @@
 
 // import { MoneyFormatter } from '../utils/helpers';
+import rklogo from '../images/rklogo'
+import { MoneyFormatter } from '../utils/helpers';
+const conversor = require('conversor-numero-a-letras-es-ar');
 
 
 function Detalles(doc, starty, margin_left ) {
@@ -224,38 +227,414 @@ function linea(doc, margin, starty){
 }
 
 function Contrato(doc, PAPELETA, cantidad) {
-        try {
-        //doc.addImage(charter, 'PNG', 30, 30, 200, 80);
-        } catch (error) {
         
-        }
-        doc.setFontSize(12);
-        
-        let starty = 10;
-        
-        let margin = 13;
-        let margin_left= 30;
-        
-        let colorRazon= "#004085"; 
-        doc.setTextColor(colorRazon);
-        doc.text(margin_left, starty+=margin, 'CONTRATO DE PRESTACION DE SERVICIOS DE TRANSPORTE');
-        doc.text(margin_left, starty+=margin, 'RECORRIENDO KILOMETROS S.A. DE C.V. RFC: RKI180820PJA');
-        doc.textWithLink('contacto@recorriendokilometros.com.mx', margin_left, starty+=margin, { url: 'mailto:contacto@recorriendokilometros.com.mx' });
-        doc.text(margin_left, starty+=margin, 'Telefonos: 3316954455 - 3322553662');
-        
+          let color_encabezado = (170, 182, 198);//(255,255,255);
+          let azul_fuerte_letras = (29,34,78)
+        //   doc.setFillColor(170, 182, 198) //azul bajito
+        doc.setFillColor(255, 255, 255) //azul bajito
+          
+          doc.ellipse(-20, -50, 950, 131, 'F');
+        //   doc.setDrawColor(170, 182, 198);   //azul bajito
+        doc.setDrawColor(0, 0, 0);   //azul bajito
+          doc.ellipse(-20, -45, 950, 131, 'D');
+          doc.ellipse(-20, -40, 950, 131, 'D');
+          
 
-        //FOLIO
-        let color = "#0c5460"
-        let background = "#d1ecf1"
-        let secondColumn_left = 300;
-        doc.setTextColor(color);
-        doc.setFillColor(background) 
-        doc.roundedRect(secondColumn_left+150, 10, 100, 17, 13, 0, 'F');
-        doc.text(secondColumn_left+175, 10+margin, "FOLIO");
-        doc.setFillColor(background) 
-        doc.roundedRect(secondColumn_left+150, 27, 100, 17, 13, 0, 'F');
-        doc.text(secondColumn_left+175, 27+margin, "123556");
-        Detalles(doc, starty+=margin, margin_left)
+
+          try {
+            doc.addImage(rklogo, 'PNG', 20, 20, 140, 50);
+          } catch (error) {
+            console.log(rklogo)
+          }
+          doc.setFontSize(10);
+
+          
+          doc.setTextColor(29,34,78) //azul fuerte
+          
+          doc.text(160, 30, 'Contrato de prestación de servicios de Transporte');
+          doc.setFontSize(11);
+          doc.textWithLink( 'RECORRIENDO KILOMETROS SA DE CV',160, 45,{ url: 'http://recorriendokilometros.com.mx/' });
+          doc.text(240, 60, 'RKI180820PJA"');
+          
+
+          doc.setFontSize(11);
+          doc.setDrawColor(0);
+          
+          doc.setFillColor(29,34,78) //rojo
+          doc.roundedRect(380, 30, 120, 44, 3, 3, 'FD'); //Fill D/border
+          
+          doc.setTextColor(255,255,255);
+          doc.text(390, 43, 'FECHA CONTRATO:');
+          doc.text(420, 63, 'FOLIO:');
+          
+          doc.setTextColor(0,0,0);
+
+        //   doc.setDrawColor(0);
+        //   doc.setFillColor(255, 255, 255);
+        //   doc.rect(400, 52, 100, 25,'F'); 
+          
+          doc.setTextColor(29,34,78);
+          doc.line(380, 53, 580, 53);
+          
+        //   doc.text(502, 64, Folio+"");
+          //doc.text(600, 64, 'E');
+        
+          doc.setDrawColor(0);
+          doc.setFillColor(255, 255, 255);
+          doc.roundedRect(400, 30, 180, 44, 3, 3); //  Black square with rounded corners
+           ///       x    y  ancho altura 
+           
+
+           let starty = 90;
+           let increment = 24;
+           let tabinsidesection = 17
+           let color_labels = (255,255,255);//(255,255,255);
+           let color_azules = (62, 53, 125);//(255,255,255);
+           let color_valores = (0,0,0);//(255,255,255);
+           doc.setDrawColor(29,34,78);
+           doc.setLineWidth(.8)
+   
+           doc.setTextColor(color_valores)
+           doc.setFont('helvetica', "bold")
+           doc.text(20, starty+13, 'DATOS DEL CONTRATANTE');
+           doc.setFont('helvetica', "normal")
+           starty += tabinsidesection; 
+   
+           doc.setFillColor(126, 152, 186) //azul relleno
+           doc.roundedRect(15, starty, 163, 34, 6, 6, 'F');
+           doc.rect(170, starty, 10, 34, 'F')
+           doc.roundedRect(15, starty, 550, 34, 6, 6, 'D');
+   
+   
+           doc.setTextColor(color_labels);
+           doc.text(20, starty+13, 'NOMBRE DEL CONTRATANTE');
+           doc.setTextColor(color_valores) 
+        //    doc.text(110, starty+13, CLIENTE_NOMBRE);
+           doc.setLineWidth(.5)
+
+           doc.setFillColor(126, 152, 186) //azul relleno
+           doc.rect(430, starty, 33, 17, 'F');
+           doc.setTextColor(color_labels)
+           doc.text(435, starty+13, 'TEL.');
+           doc.setTextColor(color_valores)
+           doc.text(465, starty+13, "+52 133 1695 4455");
+
+           doc.line(15, starty+17, 565, starty+17);
+           
+   
+           starty += tabinsidesection;
+           
+           doc.setFillColor(126, 152, 186) //azul relleno
+           doc.setTextColor(color_labels)
+           doc.text(20, starty+13, 'ENCARGADO DE LA UNIDAD');
+           doc.setTextColor(color_valores)
+           doc.text(180, starty+13, "ALAN JOSUE GARCIA RODRIGUEZ RODRIGUEZ");
+           
+           doc.setFillColor(126, 152, 186) //azul relleno
+           doc.rect(430, starty, 33, 17, 'F');
+           doc.setTextColor(color_labels)
+           doc.text(435, starty+13, 'TEL.');
+           doc.setTextColor(color_valores)
+           doc.text(465, starty+13, "+52 133 1695 4455");
+           
+           
+           
+   
+           starty += tabinsidesection;
+           
+           
+   
+           doc.setLineWidth(.8)
+           starty += tabinsidesection; 
+           doc.setTextColor(color_valores)
+           doc.setFont('helvetica', "bold")
+           doc.text(20, starty+13, 'DATOS DE SALIDA Y REGRESO DE VIAJE');
+           doc.setFont('helvetica', "normal")
+           
+           
+           starty += tabinsidesection;
+           // rectangulo de toda la seccion  DATOS DE SALIDA Y REGRESO DE VIAJE
+           doc.setTextColor(color_valores)
+           doc.roundedRect(15, starty, 550, 260, 3, 3, 'D');
+           // rectangulo de toda la seccion  DATOS DE SALIDA Y REGRESO DE VIAJE
+   
+           doc.setLineWidth(.5)
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'DESTINO');
+           doc.setTextColor(color_valores)
+        //    doc.text(110, starty+13, DESTINO);
+           doc.line(15, starty+17, 565, starty+17);
+           
+           
+           doc.setTextColor(color_azules)
+           doc.text(335, starty+13, 'FECHA DE SALIDA');
+           doc.setTextColor(color_valores)
+        //    doc.text(444, starty+13, FECHA_SALIDA);
+           
+           
+           starty += tabinsidesection; 
+   
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'HORA DE SALIDA');
+           doc.setTextColor(color_valores)
+        //    doc.text(130, starty+13, HORA_SALIDA);
+           doc.line(15, starty+17, 565, starty+17);
+           
+           
+           doc.setTextColor(color_azules)
+           doc.text(335, starty+13, 'PRESENTARSE');
+           doc.setTextColor(color_valores)
+        //    doc.text(444, starty+13, HORA_PRESENTARSE);
+           
+           starty += tabinsidesection; 
+   
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'ENCARGADO DE LA UNIDAD');
+           doc.setTextColor(color_valores)
+        //    doc.text(190, starty+13, ENCARGADO);
+           doc.line(15, starty+17, 565, starty+17);
+           
+           
+           doc.setTextColor(color_azules)
+           doc.text(335, starty+13, 'TEL / CEL');
+           doc.setTextColor(color_valores)
+        //    doc.text(444, starty+13, TEL_ENCARGADO);
+           
+           starty += tabinsidesection; 
+   
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'DIRECCION DE SALIDA');
+           doc.setTextColor(color_valores)
+        //    doc.text(165, starty+13, DIRECCION_SALIDA);
+           doc.line(15, starty+17, 565, starty+17);
+           
+           starty += tabinsidesection; 
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'ENTRE LAS CALLES');
+           doc.setTextColor(color_valores)
+        //    doc.text(165, starty+13, ENTRE_CALLES);
+           doc.line(15, starty+17, 565, starty+17);
+           
+           starty += tabinsidesection; 
+   
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'COLONIA Y CIUDAD');
+           doc.setTextColor(color_valores)
+        //    doc.text(165, starty+13, COLONIA_CIUDAD);
+           doc.line(15, starty+17, 565, starty+17);
+           
+           starty += tabinsidesection; 
+   
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'PUNTO DE REFERENCIA');
+           doc.setTextColor(color_valores)
+           
+        //    let splitpuntoreferencia = doc.splitTextToSize(PUNTO_REFERENCIA, 390);
+           //doc.text(165, starty+13, PUNTO_REFERENCIA);
+        //    doc.text(165, starty+13, splitpuntoreferencia);
+   
+           doc.line(15, starty+40, 565, starty+40);
+           
+           starty += tabinsidesection+20; 
+   
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'ITINERARIO');
+           doc.setTextColor(color_valores)
+   
+            doc.roundedRect(30, starty+15, 500, 57, 3, 3, 'D');
+   
+        //    var splitObservacion = doc.splitTextToSize(ITINERARIO, 490);
+           // var splitObservacion = "" 
+        //    doc.text(40, starty+increment+6, splitObservacion);
+           
+           starty += increment; 
+           starty += increment; 
+           starty += increment; 
+   
+           
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'FECHA DE REGRESO');
+           doc.setTextColor(color_valores)
+        //    doc.text(165, starty+13, FECHA_REGRESO);
+           doc.line(15, starty+17, 565, starty+17);
+           
+           
+           doc.setTextColor(color_azules)
+           doc.text(335, starty+13, 'HORA DE REGRESO');
+           doc.setTextColor(color_valores)
+        //    doc.text(444, starty+13, HORA_REGRESO);
+   
+           starty += increment; 
+           doc.setTextColor(color_valores)
+   
+           console.log(doc.getFont())
+           console.log(doc.getFontList())
+           doc.setFontSize(9)
+           doc.setFont('helvetica', "italic")
+           var splitObservacion = doc.splitTextToSize('IMPORTANTE: TRASLADO O PASEO EXTRA NO ESPECIFICADO TIENE COSTO EXTRA Y TENDRA QUE SER LIQUIDADO AL MOMENTO DE REALIZARLO DIRECTO CON EL OPERADOR', 550);
+           doc.text(20, starty+13, splitObservacion);
+           doc.setFontSize(11)
+           doc.setFont('helvetica', "normal")
+   
+   
+           //FIN RECTANGULO
+           starty += tabinsidesection*2; 
+           doc.setLineWidth(.8)
+           doc.setTextColor(color_valores)
+           doc.setFont('helvetica', "bold")
+           doc.text(20, starty+13, 'CARACTERISTICAS DE LA UNIDAD CONTRATADA');
+           doc.setFont('helvetica', "normal")
+           starty += tabinsidesection;
+           // rectangulo de toda la seccion TIPO UNIDAD
+           doc.setTextColor(color_valores)
+           doc.roundedRect(15, starty, 550, 90, 3, 3, 'D');
+           // rectangulo de toda la seccion TIPO UNIDAD
+   
+           doc.setLineWidth(.5)
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'TIPO DE UNIDAD');
+           doc.setTextColor(color_valores)
+        //    doc.text(124, starty+13, TIPO_UNIDAD);
+           doc.line(15, starty+17, 565, starty+17);
+           
+           
+           doc.setTextColor(color_azules)
+           doc.text(180, starty+13, 'CAPACIDAD');
+           doc.setTextColor(color_valores)
+        //    doc.text(250, starty+13, CAPACIDAD);
+   
+           doc.setTextColor(color_azules)
+           doc.text(335, starty+13, 'FECHA CONTRATO');
+           doc.setTextColor(color_valores)
+        //    doc.text(444, starty+13, FECHA_CONTRATO);
+   
+           starty += tabinsidesection; 
+           doc.setTextColor(color_azules)
+           doc.text(30, starty+13, 'UNIDAD EQUIPADA CON:');
+   
+   
+           starty += increment+5; 
+           
+           doc.setFontSize(8)
+           
+           doc.circle(60, starty, 7, 'D'); //AIRE   
+            //    doc.text(57, starty+3, EQUIPADA.includes('AIRE ACONDICIONADO') ? 'X' : '');
+           doc.text(70, starty+3, 'AIRE ACONDICIONADO'); 
+   
+           doc.circle(180, starty, 7, 'D'); //sanitario
+            //    doc.text(177, starty+3, EQUIPADA.includes('SANITARIO') ? 'X' : '');
+           doc.text(190, starty+3, 'SANITARIO');
+   
+           doc.circle(300, starty, 7, 'D'); //TV/DVD
+            //    doc.text(297, starty+3, EQUIPADA.includes('TV/DVD') ? 'X' : ''); 
+           doc.text(310, starty+3, 'TV/DVD');
+   
+           doc.circle(420, starty, 7, 'D');  //Microfono
+            //    doc.text(417, starty+3, EQUIPADA.includes('MICROFONO') ? 'X' : '');
+           doc.text(430, starty+3, 'MICROFONO');
+           
+           starty += increment; 
+   
+           doc.circle(60, starty, 7, 'D'); //STEREO
+            //    doc.text(57, starty+3, EQUIPADA.includes('STEREO') ? 'X' : '');
+           doc.text(70, starty+3, 'STEREO');
+           
+           doc.circle(180, starty, 7, 'D'); //SEGURO DE PASAJEROS
+            //    doc.text(177, starty+3, EQUIPADA.includes('SEGURO DE PASAJERO') ? 'X' : '');
+            //    doc.text(177, starty+3, EQUIPADA.includes('SEGURO DE VIAJERO') ? 'X' : '');
+               
+           doc.text(190, starty+3, 'SEGURO DE PASAJEROS');
+   
+           doc.circle(380, starty, 7, 'D'); //OTROS
+           doc.text(390, starty+3, 'OTROS:');
+   
+           doc.setFontSize(11)
+           doc.setLineWidth(.8)
+           
+           starty += tabinsidesection; 
+           doc.setTextColor(color_valores)
+           doc.setFont('helvetica', "bold")
+           doc.text(20, starty+13, 'PAGOS');
+           doc.setFont('helvetica', "normal")
+           starty += tabinsidesection; 
+           doc.setTextColor(color_valores)
+           doc.roundedRect(15, starty, 550, 60, 3, 3, 'D');
+           // rectangulo de toda la seccion TIPO UNIDAD
+           
+           let ClaseConversor = conversor.conversorNumerosALetras;
+           let miConversor = new ClaseConversor();
+   
+           doc.setLineWidth(.5)
+           doc.line(15, starty+20, 565, starty+20);
+           starty += tabinsidesection; 
+           doc.setTextColor(color_azules)
+           doc.text(30, starty, 'IMPORTE TOTAL');
+           doc.setTextColor(color_valores)
+           let IMPORTE_TOTAL = ""
+           try{
+           doc.text(120, starty, IMPORTE_TOTAL +  ' '+  miConversor.convertToText(IMPORTE_TOTAL.replace('$', '').replace(',', '').replace('.00', '').trim()));
+           }catch(error){
+               doc.text(120, starty, IMPORTE_TOTAL.replace('$', '').replace(',', '').trim())
+           }
+           
+           doc.line(15, starty+22, 565, starty+22);
+           starty += tabinsidesection; 
+           
+           doc.setTextColor(color_azules)
+           doc.text(30, starty, 'ANTICIPO');
+           doc.setTextColor(color_valores)
+           let ANTICIPO  = ""
+           try{
+               doc.text(120, starty, ANTICIPO +  ' '+  miConversor.convertToText(ANTICIPO.replace('$', '').replace(',', '').replace('.00', '').trim()));
+           }catch(error){
+               doc.text(120, starty, ANTICIPO)
+           }
+           
+   
+           starty += tabinsidesection; 
+           doc.setTextColor(color_azules)
+           doc.text(30, starty, 'SALDO');
+           doc.setTextColor(color_valores)
+           let SALDO = ""
+           try{
+           doc.text(120, starty, SALDO +  ' '+  miConversor.convertToText(SALDO.replace('$', '').replace(',', '').replace('.00', '').trim()));
+           }catch(error){
+               doc.text(120, starty, SALDO)
+           }
+           
+           starty += increment; 
+           doc.setFontSize(8);
+            // rectangulo de toda la seccion TIPO UNIDAD
+            doc.setTextColor(color_valores)
+            doc.roundedRect(15, starty-10, 550, 105, 3, 3, 'D');
+            // rectangulo de toda la seccion TIPO UNIDAD
+   
+          
+   
+           doc.setTextColor(color_azules)
+           var derivado = doc.splitTextToSize("Derivado del Servicio de Transporte Terrestre que solicite a la empresa GVA Tours S.A. de C.V., y una vez que he leido el total de las condiciones que se adjuntan al presente contrato, estoy de acuerdo con el total de su contenido.", 530);
+           doc.text(20, starty, derivado);
+           
+           starty += increment*3; 
+           doc.line(90, starty-10, 240, starty-10);
+           
+           doc.text(90, starty, 'Nombre y Firma de aceptación del Cliente');
+           doc.line(300, starty-10, 450, starty-10);
+   
+           let VENDEDOR = ""
+           doc.text(345, starty-20, VENDEDOR);
+           
+           
+   
+           doc.text(330, starty, 'Nombre y Firma del vendedor');
+           starty += tabinsidesection;
+           doc.text(150, starty, 'TELEFONO DE EMERGENCIA: GUSTAVO JAUREGUI 333-808-6093');
+   
+           starty += tabinsidesection;
+           doc.text(20, starty, 'NOTA IMPORTANTE: A la firma del contrato deberá cubrirse el 20% del importe total, y el saldo una semana antes de la realización del viaje.');
+   
+           doc.setFontSize(10);
+
 }
 
 
