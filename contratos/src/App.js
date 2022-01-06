@@ -2,72 +2,66 @@ import './App.css';
 import React from 'react';
 import ContratoPDF from './utils/ContratoPDF';
 import { jsPDF } from "jspdf";
+import QRCode from "qrcode.react";
 
 class App extends React.Component {
 
   constructor(props){
     super(props)
     this.state = {
-		embed: ''
+		embed: '',
+		formValues: { clave_reservacion: '', tvdvd_unidad: true}
     }
 
     this.leer_contrato = this.leer_contrato.bind(this);
     this.Guardar_Reservacion = this.Guardar_Reservacion.bind(this);
 	this.crear_PDF = this.crear_PDF.bind(this);
+	this.infoContrato = this.infoContrato.bind(this);
+	this.ClaveReservacion = this.ClaveReservacion.bind(this);
+    
+  }
+
+  componentDidMount(){
+    //this.crear_PDF()
     
   }
 
   crear_PDF = () => {
+	  let development = false
 	const doc = new jsPDF('p', 'pt', 'letter');
-        
-	ContratoPDF.Contrato(doc, "PAPELETA", "cantidad")
-	
-	let data = doc.output('datauristring');
-	// doc.output('save', 'filename.pdf'); //Try to save PDF as a file (not works on ie before 10, and some mobile devices)
-	// doc.output('datauristring');        //returns the data uri string
-	// doc.output('datauri');              //opens the data uri in current window
-	// doc.output('dataurlnewwindow');     //opens the data uri in new window
 
 	
-
-	// let starty = 90;
-	// let increment = 24;
-	// let tabinsidesection = 17
-	// let color_labels = (255,255,255);//(255,255,255);
-	// let color_azules = (62, 53, 125);//(255,255,255);
-	// let color_valores = (0,0,0);//(255,255,255);
-	// doc.setDrawColor(29,34,78);
-	// doc.setLineWidth(.8)
-
-	// doc.setTextColor(color_valores)
-	// doc.setFont('helvetica', "bold")
-	// doc.text(20, starty+13, 'DATOS DEL CONTRATANTE');
-	// doc.setFont('helvetica', "normal")
-	// starty += tabinsidesection; 
-
-	// doc.setFillColor(126, 152, 186) //azul relleno
-	// doc.roundedRect(15, starty, 90, 51, 6, 6, 'F');
-	// doc.rect(95, starty, 10, 51, 'F')
-	// doc.roundedRect(15, starty, 550, 51, 6, 6, 'D');
-
-
-	// doc.setTextColor(color_labels);
-	// doc.text(30, starty+13, 'NOMBRE');
-	// doc.setTextColor(color_valores) 
-	// doc.text(110, starty+13, "fasd");
-	// doc.setLineWidth(.5)
-	// doc.line(15, starty+17, 565, starty+17);
-
-	// this.setState({
-	//   embed: iframe
-	// });
-
-	doc.output('save', 'filename.pdf'); 
+    this.infoContrato().then((form_data) => {
+		const qrCodeCanvas = document.querySelector('canvas');
+		const qrCodeDataUri = qrCodeCanvas.toDataURL('image/jpg', 0.3);
+		ContratoPDF.Contrato(doc, form_data, qrCodeDataUri)
+	
+		let data = doc.output('datauristring');
+		if(development){
+		
+		
+			doc.output('datauristring'); //returns the data uri string
+			alert(data)
+		   let iframe = `<iframe type="application/pdf" src="${data}#toolbar=0&navpanes=0" width="100%" height="1100px" frameborder="0"></iframe>`;
+		   alert(iframe)
+		   this.setState({
+			   embed: iframe
+			 });
+   
+	   }else {
+		   doc.output('save', 'filename.pdf'); 
+	   }
+	})
+	
+	
+	
   }
 
-  leer_contrato = () => {
-    
-    debugger;
+  obtener_contrato = () => {
+	return new Promise((resolve, reject) => {
+		
+	   			
+
 		var http = new XMLHttpRequest();
 		var url = "http://ec2-54-89-234-112.compute-1.amazonaws.com:9000/leercontrato";
 		var params = JSON.stringify({ "nombre_contrato": document.getElementsByName("nombre_contrato")[0].value});
@@ -78,30 +72,56 @@ class App extends React.Component {
 		http.onreadystatechange = function() {//Call a function when the state changes.
 			if(http.readyState === 4 && http.status === 200) {
 				var data = JSON.parse(http.responseText);
-				console.log(data);
-        var jsonvar = JSON.stringify(data);
-				console.log(jsonvar);
+				
+				var jsonvar = JSON.stringify(data);
+				
 				var objjson = JSON.parse(jsonvar);
-				console.log(objjson);
+				
 				var inputs = Array.prototype.slice.call(document.querySelectorAll('form input'));
 				inputs.push(document.querySelectorAll('form textarea')[0]);
-				console.log(inputs);
-				Object.keys(objjson).map(function (dataItem) {
-					inputs.map(function (inputItem) {
-						return (inputItem.name === dataItem) ? (inputItem.value = data[dataItem]) : false;
 				
-					});
-				});
+				
+				
+				// let obj = { ...objjson, fecharegreso_itinerario: new Date(objjson.fecharegreso_itinerario), fechasalida_itineario: new Date(objjson.fechasalida_itineario).toISOString().slice(0, 10) , fecha_contrato: new Date(objjson.fecha_contrato).toISOString().slice(0, 10)}
+				// console.log(obj.fecharegreso_itinerario)
+				resolve({objjson, inputs, data})
 				
 			}
 		}
-		http.send(params);
+		http.onerror = function () {
+			reject({
+			  status: this.status,
+			  statusText: http.statusText
+			});
+		  };
 
+
+		http.send(params);
+	})
+	
+
+  }
+
+  leer_contrato = () => {
+       this.obtener_contrato()
+	   .then((res)=> {
+		   console.log(res)
+		Object.keys(res.objjson).map(function (dataItem) {
+			res.inputs.map(function (inputItem) {
+				
+				return (inputItem.name === dataItem) ? inputItem.value = res.data[dataItem]  :false;
+				
+			});
+		});
+	   }).then(() => {
+		this.setState({formValues: {clave_reservacion: document.getElementsByName("clave_reservacion")[0].value}})
+	   })
 	}
   
   ClaveReservacion = () =>{
-    debugger;
+    // debugger;
     return new Promise((resolve, reject) => {
+		
       var http = new XMLHttpRequest();
       //var url = "http://localhost:3000/clave";
       var url = "http://ec2-54-89-234-112.compute-1.amazonaws.com:9000/clave";
@@ -117,7 +137,7 @@ class App extends React.Component {
         
         if(http.readyState === 4 && http.status === 200) {
           
-          //alert(http.responseText);
+          
           document.getElementsByName("clave_reservacion")[0].value = http.responseText;
           //var data = JSON.parse(http.responseText);
           resolve();
@@ -129,6 +149,51 @@ class App extends React.Component {
     
   }
 
+  infoContrato = () => {
+	return new Promise((resolve, reject) => {
+		var params = JSON.stringify({
+			"clave_reservacion": document.getElementsByName("clave_reservacion")[0].value,
+		  "nombre_contrato": document.getElementsByName("nombre_contrato")[0].value,
+		  "fecha_contrato": document.getElementsByName("fecha_contrato")[0].value,
+		  "nombre_contratante": document.getElementsByName("nombre_contratante")[0].value,
+		  "telefono_contratante": document.getElementsByName("telefono_contratante")[0].value,
+		  "cliente_itinerario": document.getElementsByName("cliente_itinerario")[0].value,
+		  "telefono_itinerario": document.getElementsByName("telefono_itinerario")[0].value,
+		  "destino_itinerario": document.getElementsByName("destino_itinerario")[0].value,
+		  "ubicacion_destino_itinerario": document.getElementsByName("ubicacion_destino_itinerario")[0].value,
+		  "fechasalida_itineario": document.getElementsByName("fechasalida_itineario")[0].value,
+		  "presentarse_itineario": document.getElementsByName("presentarse_itineario")[0].value,
+		  "horasalida_itineario": document.getElementsByName("horasalida_itineario")[0].value,
+		  "direccionsalida_itinerario": document.getElementsByName("direccionsalida_itinerario")[0].value,
+		  "ubicacion_direccion_salida_itinerario": document.getElementsByName("ubicacion_direccion_salida_itinerario")[0].value,
+		  "colonia_itineario": document.getElementsByName("colonia_itineario")[0].value,
+		  "ciudad_itineario": document.getElementsByName("ciudad_itineario")[0].value,
+		  "entrecalles_itinerario": document.getElementsByName("entrecalles_itinerario")[0].value,
+		  "referencias_itinerario": document.getElementsByName("referencias_itinerario")[0].value,
+		  "detalles_itineario": document.getElementsByName("detalles_itineario")[0].value,
+		  "fecharegreso_itinerario": document.getElementsByName("fecharegreso_itinerario")[0].value,
+		  "horaregreso_itineario": document.getElementsByName("horaregreso_itineario")[0].value,
+		  "unidad_unidad": document.getElementsByName("unidad_unidad")[0][document.getElementsByName("unidad_unidad")[0].selectedIndex].text,
+		  "capacidad_unidad": document.getElementsByName("capacidad_unidad")[0].value,
+		  "ACC_unidad": document.getElementsByName("ACC_unidad")[0].checked,
+		  "estereo_unidad": document.getElementsByName("estereo_unidad")[0].checked,
+		  "sanitarios_unidad": document.getElementsByName("sanitarios_unidad")[0].checked,
+		  "tvdvd_unidad": document.getElementsByName("tvdvd_unidad")[0].checked,
+		  "microfono_unidad": document.getElementsByName("microfono_unidad")[0].checked,
+		  "seguro_unidad": document.getElementsByName("seguro_unidad")[0].checked,
+		  "otros_unidad": document.getElementsByName("otros_unidad")[0].value,
+		  "total_pagos": document.getElementsByName("total_pagos")[0].value,
+		  "anticipo_pagos": document.getElementsByName("anticipo_pagos")[0].value,
+		  "pendiente_pagos": document.getElementsByName("pendiente_pagos")[0].value
+		});
+		
+		
+		
+
+		resolve(params)
+	})
+	
+  }
   
   
 
@@ -162,19 +227,20 @@ class App extends React.Component {
         "detalles_itineario": document.getElementsByName("detalles_itineario")[0].value,
         "fecharegreso_itinerario": document.getElementsByName("fecharegreso_itinerario")[0].value,
         "horaregreso_itineario": document.getElementsByName("horaregreso_itineario")[0].value,
-        "unidad_unidad": document.getElementsByName("unidad_unidad")[0].value,
+        "unidad_unidad": document.getElementsByName("unidad_unidad")[0][document.getElementsByName("unidad_unidad")[0].selectedIndex].text,
         "capacidad_unidad": document.getElementsByName("capacidad_unidad")[0].value,
-        "ACC_unidad": document.getElementsByName("ACC_unidad")[0].value,
-        "estereo_unidad": document.getElementsByName("estereo_unidad")[0].value,
-        "sanitarios_unidad": document.getElementsByName("sanitarios_unidad")[0].value,
-        "tvdvd_unidad": document.getElementsByName("tvdvd_unidad")[0].value,
-        "microfono_unidad": document.getElementsByName("microfono_unidad")[0].value,
-        "seguro_unidad": document.getElementsByName("seguro_unidad")[0].value,
+        "ACC_unidad": document.getElementsByName("ACC_unidad")[0].checked,
+		"estereo_unidad": document.getElementsByName("estereo_unidad")[0].checked,
+		"sanitarios_unidad": document.getElementsByName("sanitarios_unidad")[0].checked,
+		"tvdvd_unidad": document.getElementsByName("tvdvd_unidad")[0].checked,
+		"microfono_unidad": document.getElementsByName("microfono_unidad")[0].checked,
+		"seguro_unidad": document.getElementsByName("seguro_unidad")[0].checked,
         "otros_unidad": document.getElementsByName("otros_unidad")[0].value,
         "total_pagos": document.getElementsByName("total_pagos")[0].value,
         "anticipo_pagos": document.getElementsByName("anticipo_pagos")[0].value,
         "pendiente_pagos": document.getElementsByName("pendiente_pagos")[0].value
       });
+	  console.log(document.getElementsByName("tvdvd_unidad")[0].checked)
 
     http.open("POST", url, true);
     
@@ -196,34 +262,41 @@ class App extends React.Component {
   }
 
   Guardar_Reservacion = () => {
-    debugger;
-    Promise.resolve(this.ClaveReservacion).then(()=>{
+    // debugger;
+    this.ClaveReservacion().then(()=>{
       this.Guardar();
     });
   }
+
+  handleChange(event) {
+	event.preventDefault();
+        let formValues = this.state.formValues;
+        let name = event.target.name;
+        let value = event.target.value;
+
+        formValues[name] = value;
+
+        this.setState({formValues})
+}
 
   
 
 
 
   render() {
-
+    let {formValues } = this.state
     return <div className="App">
+
 	<div id="booking" className="section">
-		<div class="row">
-		<div class="booking-form">
-			<div class="form-header">
-				<h1>CONTRATO RK</h1>
-			</div>
+		<div className="row">
+		<div className="booking-form">
 			<form>
-				
 			<div className="row">
 			<div className="col-sm-6"></div>
 				<div className="col-sm-6">
 					<div className="form-group">
 						<span className="form-label">Fecha del contrato:</span>
-						<input type="text" className="form-control" 
-				  id="inputtext_date" placeholder="DD/MM/ÑÑÑÑ" 
+						<input type="text" className="form-control" placeholder="dd/mm/ññññ"
 				   name="fecha_contrato"/>
 					</div>
 				</div>
@@ -236,7 +309,6 @@ class App extends React.Component {
 							<span className="form-label">Nombre del contratante:</span>
 							<input type="text" className="form-control" id="inputtext" 
 								placeholder="Nombre de quien contrata" 
-								 
 								name="nombre_contratante"/>
 						</div>
 					</div>
@@ -254,7 +326,7 @@ class App extends React.Component {
 
 					
 
-					<div className="col-md-1">
+					<div className="col-md-6">
 						<div className="form-group">
 							<span className="form-label">Nombre encargado de la unidad:</span>
 							<input type="text" className="form-control" id="inputtext"
@@ -263,7 +335,7 @@ class App extends React.Component {
 						</div>
 					</div>
 
-					<div className="col-md-1">
+					<div className="col-md-6">
 						<div className="form-group">
 							<span className="form-label">Telefono:</span>
 							<input type="text" className="form-control" id="inputtext_telefono"
@@ -273,34 +345,28 @@ class App extends React.Component {
 					</div>
 				</div>   
       
-				{/* <!-- DATOS CONTRATANTE --> */}
-
-				{/* <!-- ITINERARIO --> */}
-				{/* <span className="form-label-section">ITINERARIO</span> */}
-
-				{/* <div className="panel panel-default"> */}
-
-				{/* <span class="form-label">Pickup Date</span>
-				<input class="form-control" type="date" required> */}
+			
 
 					<div className="row">
 						<div className="col-sm-4">
 							<div className="input-group">
-								<span class="form-label">Fecha salida</span>
-								<input class="form-control" 
+								<span className="form-label">Fecha salida</span>
+								<input className="form-control" 
 									name="fechasalida_itineario" 
-									id="inputtext_date" 
-									placeholder="MM/DD/YYYY" 
-									type="date" required/>								
+									id="inputtext_date" placeholder="dd/mm/ññññ"
+									
+									type="text" required/>								
 							</div>
 						</div>
 						<div className="col-sm-4">
 							<div className="input-group">
 								<span className="form-label">Presentarse:</span>
 								<input type="text" className="form-control"
+								
 									 id="inputtext"
-									 placeholder="00:00 hrs"
+									 placeholder="00:00"
 									 name="presentarse_itineario"/>
+									 <small>hrs.</small>
 
 								
 								
@@ -311,17 +377,18 @@ class App extends React.Component {
 								<span className="form-label">Hora salida:</span>
 								<input type="text" className="form-control"
 									 id="inputtext"
-									 placeholder="00:00 hrs"
+									 placeholder="00:00"
 									 name="horasalida_itineario"/>
+								<small>hrs.</small>
 							</div>
 						</div>
 
 						<div className="col-md-4">
 							<div className="input-group">
 								<span className="form-label">Fecha de regreso:</span>
-								<input type="text" className="form-control" 
-									id="inputtext_date" 
-									placeholder="DD/MM/YYYY"  name="fecharegreso_itinerario"/>
+								<input className="form-control" 
+									id="inputtext_date" placeholder="dd/mm/ññññ"
+									type="text" name="fecharegreso_itinerario"/>
 								<span className="focus-border"></span>
 							</div>
 						</div>
@@ -331,13 +398,12 @@ class App extends React.Component {
 								<input type="text" className="form-control" 
 									id="inputtext" 
 									placeholder="00:00"  name="horaregreso_itineario"/>
-								<span className="focus-border"></span>
-								<span className="form-label">hrs</span>
+								<small>hrs.</small>
 							</div>
 						</div>
 
 
-						<div className="col-md-1">
+						<div className="col-md-12">
 							<div className="form-group">
 								<span className="form-label">Direccion de salida:</span>
 								<input type="text" className="form-control" 
@@ -347,16 +413,7 @@ class App extends React.Component {
 								<span className="focus-border"></span>
 							</div>
 						</div>
-						<div className="col-md-6">
-							<div className="form-group">
-								<span className="form-label">Ubicacion direccion de salida:</span>
-								<input type="text" className="form-control" 
-									id="ubicacion" 
-									placeholder=""  
-									name="ubicacion_direccion_salida_itinerario"/>
-								<span className="focus-border"></span>
-							</div>
-						</div>
+						
 						<div className="col-md-6">
 							<div className="form-group">
 								<span className="form-label">Colonia:</span>
@@ -377,7 +434,8 @@ class App extends React.Component {
 								<span className="focus-border"></span>
 							</div>
 						</div>
-						<div className="col-md-6">
+
+						<div className="col-md-12">
 							<div className="form-group">
 								<span className="form-label">Entre calles:</span>
 								<input type="text" className="form-control" 
@@ -397,7 +455,18 @@ class App extends React.Component {
 								<span className="focus-border"></span>
 							</div>
 						</div>
-						<div className="col-md-1">
+						<div className="col-md-12">
+							<div className="form-group">
+								<span className="form-label">Ubicacion direccion de salida:</span>
+								<input type="text" className="form-control" 
+									id="ubicacion" 
+									placeholder=""  
+									name="ubicacion_direccion_salida_itinerario"/>
+								<span className="focus-border"></span>
+							</div>
+						</div>
+						
+						<div className="col-md-12">
 							<div className="form-group">
 								<span className="form-label">Destino:</span>
 								<input type="text" className="form-control" 
@@ -407,7 +476,7 @@ class App extends React.Component {
 								<span className="focus-border"></span>
 							</div>
 						</div>
-						<div className="col-md-4">
+						<div className="col-md-12">
 							<div className="form-group">
 								<span className="form-label">Ubicacion:</span>
 								<input type="text" className="form-control" 
@@ -417,6 +486,7 @@ class App extends React.Component {
 								<span className="focus-border"></span>
 							</div>
 						</div>
+						
 						
 						<div className="col-md-12">
 							<span className="form-label " >Detalles del traslado: (Traslados incluidos en el costo del servicio):</span>
@@ -436,14 +506,21 @@ class App extends React.Component {
 						<div className="col-md-6">
 							<div className="input-group">
 								<span className="form-label">Tipo de unidad:</span>
-								<input type="text" className="form-control" id="inputtext" placeholder="Bus/Sprinter/Hiace/auto"  name="unidad_unidad"/>
+								{/* <input type="text" className="form-control" id="inputtext" placeholder="Bus/Sprinter/Hiace/auto"  name="unidad_unidad"/> */}
+								<select id="country" name="unidad_unidad">
+									<option value="sprinter_crafter">Sprinter/Crafter</option>
+									<option value="hiace_urvan">Hiace/Urvan</option>
+									<option value="auto">auto</option>
+									<option value="minivan">minivan</option>
+									<option value="autobus">Autobus</option>
+								</select>
 								<span className="focus-border"></span>
 							</div>
 						</div>
 						<div className="col-md-6">
 							<div className="input-group">
 								<span className="form-label">Capacidad:</span>
-								<input type="text" className="form-control" id="inputtext" placeholder=""  name="capacidad_unidad"/>
+									<input type="number" id="capacidad_unidad" name="capacidad_unidad" min="1" max="800"/>
 								<span className="focus-border"></span>
 								<span className="form-label">Pasajeros</span>
 							</div>
@@ -455,24 +532,24 @@ class App extends React.Component {
 							<div className="row">
 								<div className="col-md-4">
 									<label>
-										<input type="checkbox" value="" name="ACC_unidad" checked="si"/>Aire acondicionado
+										<input type="checkbox" value="" name="ACC_unidad" defaultChecked="checked"  value={this.state.formValues["ACC_unidad"]} onChange={this.handleChange.bind(this)}/>Aire acondicionado
 									</label>
 								</div>
 								<div className="col-md-4">
 									<label>
-										<input type="checkbox" value="" name="estereo_unidad" checked="si"/>Estereo
+										<input type="checkbox" value="" name="estereo_unidad" defaultChecked="checked"  value={this.state.formValues["estereo_unidad"]} onChange={this.handleChange.bind(this)} />Estereo
 									</label>
 								</div>
 								<div className="col-md-4">
 									<label>
-										<input type="checkbox" value="" name="sanitarios_unidad" />Sanitarios
+										<input type="checkbox"  name="sanitarios_unidad" value={this.state.formValues["sanitarios_unidad"]} onChange={this.handleChange.bind(this)} />Sanitarios
 									</label>
 								</div>
 							</div>
 							<div className="row">
 								<div className="col-md-4">
 									<label>
-										<input type="checkbox" value="" name="tvdvd_unidad" checked="si"/>TV/DVD
+										<input type="checkbox" value="" name="tvdvd_unidad" defaultChecked="checked" value={this.state.formValues["tvdvd_unidad"]} onChange={this.handleChange.bind(this)}/>TV/DVD
 									</label>
 								</div>
 								<div className="col-md-4">
@@ -482,7 +559,7 @@ class App extends React.Component {
 								</div>
 								<div className="col-md-4">
 									<label>
-										<input type="checkbox" value="" name="seguro_unidad" checked="si"/>Seguro de pasajeros
+										<input type="checkbox" value="" name="seguro_unidad" defaultChecked="checked" value={this.state.formValues["seguro_unidad"]} onChange={this.handleChange.bind(this)}/>Seguro de pasajeros
 									</label>
 								</div>
 							</div>
@@ -528,27 +605,48 @@ class App extends React.Component {
 
 	
 				<div className="row">
-					<div className="col-md-1">
+					<div className="col-md-12">
 						<div className="input-group" >
 							<span className="input-group-addon">Identificador del contrato:</span>
 							<input type="text" className="form-control" id="inputtext"  placeholder=""  name="nombre_contrato"/>
 							<span className="focus-border"></span>
 						</div>
 					</div>
-					<div className="col-md-4">
+					<div className="col-md-8">
 						<div className="input-group">
 							<span className="input-group-addon">Clave de reservacion:</span>
-							<input type="text" className="form-control clave" placeholder=""  name="clave_reservacion" />
+							<input type="text" className="form-control clave" placeholder=""  name="clave_reservacion" value={this.state.formValues["clave_reservacion"]} onChange={this.handleChange.bind(this)} />
 							<span className="focus-border"></span>
 						</div>
 					</div>
+					<div className="col-md-2" id="qr_code"> 
+						<QRCode value={`http://recorriendokilometros.com.mx/${formValues["clave_reservacion"]}`} 
+						imageSrc='https://static.zpao.com/favicon.png' 
+						includeImage='true'
+						imageH='24'
+						imageW='24'
+						imageX='0'
+						imageY='0'
+						imageSrc='https://static.zpao.com/favicon.png'
+						imageExcavate='true'
+						centerImage='true'
+						onChange={this.handleChange.bind(this)}
+						size={parseInt("65")} style={{ marginRight: 20 }}/>
+					</div>
+					
 				</div>
-				<div className="previewHTML" dangerouslySetInnerHTML={{ __html: this.state.embed}}/>
+				
 			</form>
-			<button onClick={this.leer_contrato} id="leercontrato">Leer contrato</button>
-			<button onClick={this.Guardar_Reservacion} id="guardarcontrato">Guardar contrato</button>
-			<button onClick={this.crear_PDF} id="guardarcontrato">crear PDF</button>
+
+			<input onClick={this.leer_contrato}  id="leercontrato" type="submit" value="Leer contrato"/>
+			<input onClick={this.Guardar_Reservacion} id="guardarcontrato" type="submit" value="Guardar contrato"/> 
+			<input onClick={this.crear_PDF} id="crearpdf" type="submit" value="crear PDF"/> 
+			{/* <button onClick={this.leer_contrato} id="leercontrato">Leer contrato</button> */}
+			{/* <button onClick={this.Guardar_Reservacion} id="guardarcontrato">Guardar contrato</button> */}
+			{/* <button onClick={this.crear_PDF} id="guardarcontrato">crear PDF</button> */}
 		</div>
+
+		<div className="previewHTML" dangerouslySetInnerHTML={{ __html: this.state.embed}}/>
 	</div>
 </div> 
 </div>
