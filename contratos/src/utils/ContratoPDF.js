@@ -264,7 +264,7 @@ function linea(doc, margin, starty){
 //   "anticipo_pagos": document.getElementsByName("anticipo_pagos")[0].value,
 //   "pendiente_pagos": document.getElementsByName("pendiente_pagos")[0].value
 // });
-function Contrato(doc, info, qr) {
+function Contrato(doc, info, qr, nombre_contrato) {
           info = JSON.parse(info)
         
           let color_encabezado = (170, 182, 198);//(255,255,255);
@@ -506,10 +506,11 @@ function Contrato(doc, info, qr) {
            doc.text(30, starty+13, 'ITINERARIO');
            doc.setTextColor(color_valores)
    
-            doc.roundedRect(30, starty+15, 500, 57, 3, 3, 'D');
+            doc.roundedRect(30, starty+15, 520, 70, 3, 3, 'D');
    
-           var splitObservacion = doc.splitTextToSize(info.detalles_itineario, 490);
-           var splitObservacion = "" 
+            // var splitObservacion = "" 
+           var splitObservacion = doc.splitTextToSize(info.detalles_itineario, 510);
+           
            doc.text(40, starty+increment+6, splitObservacion);
            
            starty += increment; 
@@ -676,6 +677,8 @@ function Contrato(doc, info, qr) {
            try {
             doc.addImage(qr, 'png', 500, starty, 45, 45);
             doc.text(505, starty+55, info.clave_reservacion);
+            doc.text(500, starty+68, nombre_contrato);
+            
           } catch (error) {
             console.log(qr)
           }

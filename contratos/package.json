@@ -1,6 +1,7 @@
 {
   "name": "contratos",
   "version": "0.1.0",
+  "homepage": "contrato/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -15,6 +16,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "deploy": "rsync  -rave --progress -e \"ssh -i ~/.ssh/monitoreo.pem\" -r ./build/* ec2-user@ec2-54-89-234-112.compute-1.amazonaws.com:/var/www/html/contrato/",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

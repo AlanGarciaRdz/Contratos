@@ -34,7 +34,7 @@ class App extends React.Component {
     this.infoContrato().then((form_data) => {
 		const qrCodeCanvas = document.querySelector('canvas');
 		const qrCodeDataUri = qrCodeCanvas.toDataURL('image/jpg', 0.3);
-		ContratoPDF.Contrato(doc, form_data, qrCodeDataUri)
+		ContratoPDF.Contrato(doc, form_data, qrCodeDataUri, document.getElementsByName("nombre_contrato")[0].value)
 	
 		let data = doc.output('datauristring');
 		if(development){
@@ -49,7 +49,7 @@ class App extends React.Component {
 			 });
    
 	   }else {
-		   doc.output('save', 'filename.pdf'); 
+		   doc.output('save', `${document.getElementsByName("nombre_contrato")[0].value}.pdf`); 
 	   }
 	})
 	
@@ -79,8 +79,7 @@ class App extends React.Component {
 				
 				var inputs = Array.prototype.slice.call(document.querySelectorAll('form input'));
 				inputs.push(document.querySelectorAll('form textarea')[0]);
-				
-				
+				inputs.push(document.querySelectorAll('form select')[0])
 				
 				// let obj = { ...objjson, fecharegreso_itinerario: new Date(objjson.fecharegreso_itinerario), fechasalida_itineario: new Date(objjson.fechasalida_itineario).toISOString().slice(0, 10) , fecha_contrato: new Date(objjson.fecha_contrato).toISOString().slice(0, 10)}
 				// console.log(obj.fecharegreso_itinerario)
@@ -507,9 +506,9 @@ class App extends React.Component {
 							<div className="input-group">
 								<span className="form-label">Tipo de unidad:</span>
 								{/* <input type="text" className="form-control" id="inputtext" placeholder="Bus/Sprinter/Hiace/auto"  name="unidad_unidad"/> */}
-								<select id="country" name="unidad_unidad">
-									<option value="sprinter_crafter">Sprinter/Crafter</option>
-									<option value="hiace_urvan">Hiace/Urvan</option>
+								<select id="unidad_unidad" name="unidad_unidad">
+									<option value="Sprinter/Crafter">Sprinter/Crafter</option>
+									<option value="Hiace/Urvan">Hiace/Urvan</option>
 									<option value="auto">auto</option>
 									<option value="minivan">minivan</option>
 									<option value="autobus">Autobus</option>
