@@ -27,12 +27,12 @@ class App extends React.Component {
     let development = false;
     const doc = new jsPDF("p", "pt", "letter");
 
-    this.infoContrato().then((form_data) => {
+    this.obtener_contrato().then((form_data) => {
       const qrCodeCanvas = document.querySelector("canvas");
       const qrCodeDataUri = qrCodeCanvas.toDataURL("image/jpg", 0.3);
       ContratoPDF.Contrato(
         doc,
-        form_data,
+        form_data.data,
         qrCodeDataUri,
         document.getElementsByName("nombre_contrato")[0].value
       );
@@ -117,7 +117,7 @@ class App extends React.Component {
 
   ClaveReservacion = () => {
     // debugger;
-	if(document.getElementsByName("nombre_contrato")[0].value == ''){
+	if(document.getElementsByName("nombre_contrato")[0].value === ''){
 		return new Promise((resolve, reject) => {
 			var http = new XMLHttpRequest();
 			var url = `${this.apiUrl}/clave`;
@@ -134,7 +134,10 @@ class App extends React.Component {
 			// No need to set the Content-type header for a GET request
 			http.send();
 		});
-	}
+	}else {
+		// If nombre_contrato is not empty, still return a resolved promise
+		return Promise.resolve();
+	  }
 
   };
 
@@ -210,11 +213,10 @@ class App extends React.Component {
 
   Guardar = () => {
 
-	document.getElementsByName("nombre_contrato")[0].value = this.ClaveReservacion()
-    var http = new XMLHttpRequest();
+
+	this.ClaveReservacion().then(() => {
+		var http = new XMLHttpRequest();
     var url = `${this.apiUrl}/guardar`;
-    //var params = "nombre_contrato=07_08_Ivania_SanAndres";
-    //console.log(document.getElementsByName("fecha_contrato")[0].value);
 
     var params = JSON.stringify({
       nombre_contrato: document.getElementsByName("nombre_contrato")[0].value,
@@ -224,7 +226,6 @@ class App extends React.Component {
       telefono_contratante: document.getElementsByName(
         "telefono_contratante"
       )[0].value,
-      // "direccion_contratante": document.getElementsByName("direccion_contratante")[0].value,
       cliente_itinerario:
         document.getElementsByName("cliente_itinerario")[0].value,
       telefono_itinerario: document.getElementsByName("telefono_itinerario")[0]
@@ -278,7 +279,7 @@ class App extends React.Component {
       anticipo_pagos: document.getElementsByName("anticipo_pagos")[0].value,
       pendiente_pagos: document.getElementsByName("pendiente_pagos")[0].value,
     });
-    console.log(document.getElementsByName("tvdvd_unidad")[0].checked);
+
 
     http.open("POST", url, true);
 
@@ -294,6 +295,8 @@ class App extends React.Component {
       }
     };
     http.send(params);
+	})
+
   };
 
   Guardar_Reservacion = () => {

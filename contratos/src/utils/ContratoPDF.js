@@ -265,8 +265,9 @@ const conversor = require('conversor-numero-a-letras-es-ar');
 //   "pendiente_pagos": document.getElementsByName("pendiente_pagos")[0].value
 // });
 function Contrato(doc, info, qr, nombre_contrato) {
-          info = JSON.parse(info)
 
+
+    console.log(info)
           //let color_encabezado = (170, 182, 198);//(255,255,255);
           //let azul_fuerte_letras = (29,34,78)
             //  doc.setFillColor(170, 182, 198) //azul bajito
@@ -312,8 +313,8 @@ function Contrato(doc, info, qr, nombre_contrato) {
 
           doc.setTextColor(0,0,0);
           doc.setFontSize(11);
-          doc.text(495, 43, info.fecha_contrato);
-          doc.text(495, 66, info.nombre_contrato);
+          doc.text(info.fecha_contrato,495, 43);
+          doc.text(info.nombre_contrato, 495, 66);
 
 
 
@@ -413,7 +414,8 @@ function Contrato(doc, info, qr, nombre_contrato) {
            doc.setTextColor(color_azules)
            doc.text(335, starty+13, 'FECHA DE SALIDA');
            doc.setTextColor(color_valores)
-           doc.text(444, starty+13, info.fechasalida_itineario);
+
+           doc.text(info.fechasalida_itineario ? info.fechasalida_itineario : '',444, starty+13);
 
 
            starty += tabinsidesection;
@@ -421,38 +423,26 @@ function Contrato(doc, info, qr, nombre_contrato) {
            doc.setTextColor(color_azules)
            doc.text(30, starty+13, 'PRESENTARSE');
            doc.setTextColor(color_valores)
-           doc.text(130, starty+13, info.presentarse_itineario);
+           doc.text(info.presentarse_itineario ? info.presentarse_itineario : '',130, starty+13, );
            doc.line(15, starty+17, 565, starty+17);
 
 
            doc.setTextColor(color_azules)
            doc.text(335, starty+13, 'HORA DE SALIDA');
            doc.setTextColor(color_valores)
-           doc.text(444, starty+13, info.horasalida_itineario);
+           doc.text(info.horasalida_itineario ? info.horasalida_itineario:'' ,444, starty+13, );
 
            starty += tabinsidesection;
 
            doc.setTextColor(color_azules)
            doc.text(30, starty+13, 'DIRECCION DE SALIDA');
            doc.setTextColor(color_valores)
-           doc.text(190, starty+13, info.direccionsalida_itinerario);
+           doc.text(info.direccionsalida_itinerario,190, starty+13 );
            doc.line(15, starty+17, 565, starty+17);
 
 
        starty += tabinsidesection;
 
-           doc.setTextColor(color_azules)
-           doc.text(30, starty+13, 'COLONIA');
-           doc.setTextColor(color_valores)
-           doc.text(165, starty+13, info.colonia_itineario);
-           doc.line(15, starty+17, 565, starty+17);
-
-           doc.setTextColor(color_azules)
-           doc.text(335, starty+13, 'CIUDAD');
-           doc.setTextColor(color_valores)
-           doc.text(444, starty+13, info.ciudad_itineario);
-
-           starty += tabinsidesection;
 
            doc.setTextColor(color_azules)
            doc.text(30, starty+13, 'UBICACION');
@@ -463,18 +453,6 @@ function Contrato(doc, info, qr, nombre_contrato) {
            doc.setTextColor(color_azules)
            doc.line(15, starty+17, 565, starty+17);
 
-
-
-
-           starty += tabinsidesection;
-           doc.setTextColor(color_azules)
-           doc.text(30, starty+13, 'ENTRE LAS CALLES');
-           doc.setTextColor(color_valores)
-           doc.text(165, starty+13, info.entrecalles_itinerario);
-           doc.line(15, starty+17, 565, starty+17);
-
-
-
            starty += tabinsidesection;
 
            doc.setTextColor(color_azules)
@@ -482,7 +460,7 @@ function Contrato(doc, info, qr, nombre_contrato) {
            doc.setTextColor(color_valores)
 
            let splitpuntoreferencia = doc.splitTextToSize(info.referencias_itinerario, 390);
-           doc.text(165, starty+13, splitpuntoreferencia);
+           doc.text(splitpuntoreferencia, 165, starty+13);
 
            doc.line(15, starty+40, 565, starty+40);
 
@@ -491,14 +469,14 @@ function Contrato(doc, info, qr, nombre_contrato) {
            doc.setTextColor(color_azules)
            doc.text(30, starty+13, 'FECHA DE REGRESO');
            doc.setTextColor(color_valores)
-           doc.text(165, starty+13, info.fecharegreso_itinerario);
+           doc.text(info.fecharegreso_itinerario, 165, starty+13, );
            doc.line(15, starty+17, 565, starty+17);
 
 
            doc.setTextColor(color_azules)
            doc.text(335, starty+13, 'HORA DE REGRESO');
            doc.setTextColor(color_valores)
-           doc.text(450, starty+13, info.horaregreso_itineario);
+           doc.text(info.horaregreso_itineario ? info.horaregreso_itineario:'', 450, starty+13, );
 
         starty += increment;
 
@@ -528,7 +506,7 @@ function Contrato(doc, info, qr, nombre_contrato) {
            doc.setFontSize(9)
            doc.setFont('helvetica', "italic")
            var splitObservacion = doc.splitTextToSize('IMPORTANTE: TRASLADO O PASEO EXTRA NO ESPECIFICADO TIENE COSTO EXTRA Y TENDRA QUE SER LIQUIDADO AL MOMENTO DE REALIZARLO DIRECTO CON EL OPERADOR', 550);
-           doc.text(20, starty+13, splitObservacion);
+           doc.text(splitObservacion, 20, starty+13);
            doc.setFontSize(11)
            doc.setFont('helvetica', "normal")
 

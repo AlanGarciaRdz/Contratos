@@ -13,7 +13,10 @@
   }
 
   /* Enhance typography */
-  body, input, select, textarea {
+  body,
+  input,
+  select,
+  textarea {
 	font-family: 'Montserrat', sans-serif;
   }
 
@@ -23,6 +26,8 @@
 	padding: 30px;
 	border-radius: 5px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	max-width: 800px; /* Set maximum width for the form */
+	margin: 0 auto; /* Center the form horizontally */
   }
 
   /* Adjust form control styling */
@@ -57,16 +62,9 @@
 	background-color: #2a78c0; /* Darker shade on hover */
   }
 
-  /* Add more styles based on your design preferences */
-
   /* Responsive Design */
   @media screen and (max-width: 600px) {
 	.booking-form {
 	  padding: 20px;
-	}
-
-	.col-25, .col-75, input[type=submit] {
-	  width: 100%;
-	  margin-top: 10px;
 	}
   }
