@@ -4,21 +4,21 @@
   "homepage": "contrato/",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
+    "@testing-library/user-event": "^14.5.2",
     "conversor-numero-a-letras-es-ar": "^1.0.3",
-    "jspdf": "^2.3.1",
-    "qrcode.react": "^1.0.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+    "jspdf": "^2.5.1",
+    "qrcode.react": "^3.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^3.5.2"
   },
   "scripts": {
-    "deploy": "rsync  -rave --progress -e \"ssh -i ~/.ssh/monitoreo.pem\" -r ./build/* ec2-user@ec2-54-89-234-112.compute-1.amazonaws.com:/var/www/html/contrato/",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "deploy": "rsync  -rave --progress -e \"ssh -i ~/Desktop/monitoreo.pem\" -r ./build/* ec2-user@ec2-35-173-126-147.compute-1.amazonaws.com:/usr/share/nginx/html/contrato/",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider REACT_APP_ENV=development react-scripts start",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

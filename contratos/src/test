@@ -22,17 +22,17 @@
 	<div class="col-md-12">
 		<div class="input-group">
 			<span class="input-group-addon" id="basic-addon1">Direccion:</span>
-			<input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="direccion_contratante">	
+			<input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="direccion_contratante">
 			<span class="focus-border"></span>
 	 	</div>
-	</div> 
-  </div>   
-</div>   
+	</div>
+  </div>
+</div>
 {/* <!-- DATOS CONTRATANTE --> */}
 
 
 
-<div class="panel panel-default"> 
+<div class="panel panel-default">
 {/* <!-- ITINERARIO --> */}
   <div class="panel-heading" style="text-align:center;font-weight: bold;">ITINERARIO</div>
   <div class="panel-body">
@@ -57,7 +57,7 @@
 		  <input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="destino_itinerario">
 		  <span class="focus-border"></span>
 		</div>
-		
+
 	  </div>
 	<div class="col-md-4">
 		<div class="input-group">
@@ -66,14 +66,14 @@
 				<span class="focus-border"></span>
 		</div>
 	</div>
-    
+
     <div class="col-md-4">
     	<div class="input-group">
 		  <span class="input-group-addon" id="basic-addon1">Fecha salida</span>
 		  <input type="text" class="form-controls effect-1" id="inputtext_date" placeholder="DD/MM/YYYY" aria-describedby="basic-addon1" name="fechasalida_itineario">
 		  <span class="focus-border"></span>
   	     </div>
-    	
+
     </div>
     <div class="col-md-4">
     	<div class="input-group">
@@ -82,7 +82,7 @@
 		  <span class="focus-border"></span>
 		  <span class="input-group-addon">hrs</span>
   	     </div>
-    	
+
     </div>
     <div class="col-md-4">
     	<div class="input-group">
@@ -95,10 +95,10 @@
     <div class="col-md-12">
 		<div class="input-group">
 			<span class="input-group-addon" id="basic-addon1">Direccion de salida:</span>
-			<input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="direccionsalida_itinerario">	
+			<input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="direccionsalida_itinerario">
 			<span class="focus-border"></span>
 	 	</div>
-	</div> 
+	</div>
 	<div class="col-md-6">
 		<div class="input-group">
 				<span class="input-group-addon" id="basic-addon1">Ubicacion direccion de salida:</span>
@@ -113,7 +113,7 @@
 		  <input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="colonia_itineario">
 		  <span class="focus-border"></span>
   	     </div>
-    	
+
     </div>
     <div class="col-md-6">
     	<div class="input-group">
@@ -121,7 +121,7 @@
 		  <input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="ciudad_itineario">
 		  <span class="focus-border"></span>
   	     </div>
-    	
+
     </div>
     <div class="col-md-6">
     	<div class="input-group">
@@ -133,10 +133,10 @@
     <div class="col-md-12">
 		<div class="input-group">
 			<span class="input-group-addon" id="basic-addon1">Referencias:</span>
-			<input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="referencias_itinerario">	
+			<input type="text" class="form-controls effect-1" id="inputtext" placeholder="" aria-describedby="basic-addon1" name="referencias_itinerario">
 			<span class="focus-border"></span>
 	 	</div>
-	</div> 
+	</div>
 	<div class="col-md-12">
 	<span class="input-group-addon "  id="basic-addon1">Detalles del traslado: (Traslados incluidos en el costo del servicio):</span>
 	<textarea style="font-size: 20pt; width: 100%;" class="form-controls effect-1" id="inputtext" rows="5" id="comment" name="detalles_itineario"></textarea>
@@ -153,7 +153,7 @@
 		  <input type="text" class="form-controls effect-1" id="inputtext_date" placeholder="DD/MM/YYYY" aria-describedby="basic-addon1" name="fecharegreso_itinerario">
 		  <span class="focus-border"></span>
   	     </div>
-    	
+
     </div>
     <div class="col-md-4">
     	<div class="input-group">
@@ -162,29 +162,29 @@
 		  <span class="focus-border"></span>
 		  <span class="input-group-addon">hrs</span>
   	     </div>
-    	
+
     </div>
-    
+
 
 
 	</div>
     </div>
-</div>  
+</div>
 {/* <!-- ITINERARIO --> */}
 
 
-<div class="panel panel-default"> 
+<div class="panel panel-default">
 {/* <!-- Unidad contratada --> */}
   <div class="panel-heading" style="text-align:center;font-weight: bold;">UNIDAD CONTRATADA</div>
   <div class="panel-body">
-  	
+
   	<div class="col-md-6">
     	<div class="input-group">
 		  <span class="input-group-addon" id="basic-addon1">Tipo de unidad:</span>
 		  <input type="text" class="form-controls effect-1" id="inputtext" placeholder="Bus/Sprinter/Hiace/auto" aria-describedby="basic-addon1" name="unidad_unidad">
 		  <span class="focus-border"></span>
   	     </div>
-    	
+
     </div>
     <div class="col-md-6">
     	<div class="input-group">
@@ -193,7 +193,7 @@
 		  <span class="focus-border"></span>
 		  <span class="input-group-addon">Pasajeros</span>
   	     </div>
-    	
+
     </div>
     <div class="col-md-12">
     	<div class="input-group">
@@ -218,22 +218,22 @@
 	    </div>
 
     </div>
-    
+
 
 
   </div>
 
 
-</div>  
+</div>
 {/* <!-- Unidad contratada --> */}
 
-<div class="panel panel-default"> 
+<div class="panel panel-default">
 {/* <!-- Pagos--> */}
   <div class="panel-heading" style="text-align:center;font-weight: bold;">PAGOS</div>
   <div class="panel-body">
 
   <div class="col-md-12">
-    	
+
 
   	<span class="input-group-addon" id="basic-addon1">Importe Total: </span>
 	  <input type="text" class="form-controls effect-1" id="inputtext" placeholder="Numero y letra" aria-describedby="basic-addon1" name="total_pagos">
@@ -255,7 +255,7 @@
 
 </div>
 
-<div class="panel panel-default"> 
+<div class="panel panel-default">
 {/* <!-- Pie de contrato--> */}
 	<div class="panel-heading" style="text-align:center;font-weight: bold;">ACEPTO TERMINOS Y CONDICIONES DE TRANSPORTES TURISTICOS RECORRIENDO KILOMETROS SA DE CV </div>
   <div class="panel-body">
@@ -263,16 +263,16 @@
   	<div class="col-md-6">
     	<div class="input-group">
 		  <span class="input-group-addon" id="basic-addon1">Fima cliente</span>
-		  
+
   	     </div>
-    	
+
     </div>
     <div class="col-md-6">
     	<div class="input-group">
 		  <span class="input-group-addon" id="basic-addon1">Firma Prestador de servicios</span>
-		  
+
   	     </div>
-    	
+
     </div>
   </div>
 
@@ -290,7 +290,7 @@
 
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon1">Clave de reservacion:</span>
-				<input type="text" class="form-controls effect-1" placeholder="" aria-describedby="basic-addon1" name="clave_reservacion" style="background-color : #0099ff; color: #FFFFFF; font-weight: bold; font-size: 18px; text-align: center;">
+				<input type="text" class="form-controls effect-1" placeholder="" aria-describedby="basic-addon1" name="nombre_contrato" style="background-color : #0099ff; color: #FFFFFF; font-weight: bold; font-size: 18px; text-align: center;">
 				<span class="focus-border"></span>
 			</div>
 		</div>
